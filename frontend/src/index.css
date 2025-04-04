@@ -1,0 +1,66 @@
+/* @import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"); */
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0075b7;
+  --color-custom-grey: #ecf1f0;
+  --color-secondary: #0fae961a;
+  --color-black-100: #131318;
+  --font-roboto: "Roboto", sans-serif;
+  --font-open-sans: "Open Sans", serif;
+  --font-raleway: "Raleway", serif;
+  --font-league-spartan: "League Spartan", serif;
+}
+
+* {
+  outline: 1px solid transparent; /* Visualize element boundaries for debbuging switch to any other color to activate */
+}
+
+/* Hide password eye icon in Microsoft Edge */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+/* Hide number input spinner (all browsers) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; /* Removes extra margin in some cases */
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Base Sidebar Styling */
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  transition: width 0.75s ease, transform 0.75s ease;
+  background-color: #fcfcfc;
+  color: black;
+  position: fixed;
+  border-right: 1.25px solid #cccccc;
+  left: 0;
+  top: 0;
+  padding-inline: 15px;
+  overflow: hidden;
+  z-index: 4;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+}
+
+/* Collapsed Sidebar (Desktop) */
+.sidebar--collapse {
+  width: 80px;
+}
+
+/* Expanded Sidebar */
+.sidebar--showSidebar {
+  transform: translateX(0);
+}
