@@ -4,9 +4,9 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Ensure the database is stored in the backend folder
+# Ensure the database is stored in the data folder
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DATABASE_PATH = os.path.join(BASE_DIR, "culina_mind.db")
+DATABASE_PATH = os.path.join(BASE_DIR, "data", "culina_mind.db")
 
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY")

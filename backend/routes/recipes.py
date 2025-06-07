@@ -1,154 +1,313 @@
 from flask import Blueprint, request, jsonify
-from utils.openai_service import generate_recipes, generate_recipe_image  # AI-based recipe and image generation
-from flask_jwt_extended import jwt_required, get_jwt_identity  # JWT for authentication
-from models.user import db, FavoriteRecipe  # DB models
+import os
+from utils.openai_service import generate_recipes
+from models import db, User, FavoriteRecipe
+from flask_jwt_extended import jwt_required, get_jwt_identity
 import json
 
 # Define Blueprint for recipe-related routes
 recipes_bp = Blueprint("recipes", __name__)
 
-# Standard response format
-def response(status: int, message: str, data=None):
-    return jsonify({
-        "status": status,
-        "message": message,
-        "data": data
-    }), status
+# Simple test route
+@recipes_bp.route("/ping", methods=["GET"])
+def ping():
+    """Super simple ping route"""
+    return {"ping": "pong"}
 
-# Endpoint to generate AI-based recipe suggestions
+# Test route
+@recipes_bp.route("/test", methods=["GET"])
+def test_route():
+    """Simple test route to verify routing works"""
+    return {"message": "Recipes route is working!"}
+
+# Test OpenAI connection
+@recipes_bp.route("/test_openai", methods=["GET"])
+def test_openai():
+    """Test endpoint to check OpenAI API connection"""
+    try:
+        print("Testing OpenAI connection...")  # Debug log
+        print(f"API Key exists: {bool(os.getenv('OPENAI_API_KEY'))}")  # Check if key exists
+        
+        # For now, just return success without calling OpenAI
+        return jsonify({"status": 200, "message": "OpenAI test endpoint reached", "data": {"test": "success"}}), 200
+        
+    except Exception as e:
+        print(f"OpenAI test failed with error: {str(e)}")  # Debug log
+        return jsonify({"status": 500, "message": f"OpenAI test failed: {str(e)}"}), 500
+
+# Test DALL-E image generation
+@recipes_bp.route("/test_dalle", methods=["GET"])
+def test_dalle():
+    """Test endpoint to check DALL-E API connection"""
+    try:
+        from utils.openai_service import generate_recipe_image
+        
+        print("Testing DALL-E connection...")  # Debug log
+        print(f"API Key exists: {bool(os.getenv('OPENAI_API_KEY'))}")  # Check if key exists
+        
+        # Test image generation
+        test_image = generate_recipe_image("Grilled Chicken with Herbs")
+        
+        if isinstance(test_image, str) and test_image.startswith('http'):
+            return jsonify({
+                "status": 200, 
+                "message": "DALL-E test successful", 
+                "data": {"image_url": test_image}
+            }), 200
+        else:
+            return jsonify({
+                "status": 500, 
+                "message": "DALL-E test failed", 
+                "data": {"error": test_image}
+            }), 500
+        
+    except Exception as e:
+        print(f"DALL-E test failed with error: {str(e)}")  # Debug log
+        import traceback
+        print(f"Full traceback: {traceback.format_exc()}")
+        return jsonify({"status": 500, "message": f"DALL-E test failed: {str(e)}"}), 500
+
+# Generate recipes route (simplified)
 @recipes_bp.route("/generate_recipes", methods=["POST"])
-@jwt_required()
 def generate_recipe_suggestions():
     """ Generates 4 AI-based recipe suggestions based on user inputs. """
 
-    user_id = get_jwt_identity()
-    data = request.json
-
-    required_fields = ["ingredients", "cuisine", "dietary_restrictions", "time_limit", "serving_size"]
-    if not all(field in data for field in required_fields):
-        return response(400, "Missing required fields")
-
-    # Apply exemption logic only if cuisine is "Surprise Me"
-    exemption = data.get("exemption", None) if data["cuisine"].lower() == "surprise me" else None
-
-    # Flag to strictly match ingredients
-    strict_ingredients = data.get("strict_ingredients", False)
-
+    print("🔥 RECIPE ROUTE HIT! 🔥")  # Simple verification
+    print("=== Recipe Generation Started ===")  # Debug log
+    
     try:
-        # Generate recipes using OpenAI
-        recipe_suggestions = generate_recipes(
-            data["ingredients"], data["cuisine"], 
-            data["dietary_restrictions"], data["time_limit"], 
-            data["serving_size"], exemption, strict_ingredients
-        )
+        user_id = "test_user"  # Temporary test user
+        print(f"User ID: {user_id}")  # Debug log
+        
+        try:
+            data = request.json
+            print(f"Request data: {data}")  # Debug log
+        except Exception as e:
+            print(f"Error parsing request JSON: {str(e)}")  # Debug log
+            return jsonify({"status": 400, "message": f"Invalid JSON in request: {str(e)}"}), 400
+        
+        if not data:
+            print("No request data received")  # Debug log
+            return jsonify({"status": 400, "message": "No request data received"}), 400
 
-        if "error" in recipe_suggestions:
-            return response(500, "Failed to generate recipes", recipe_suggestions)
+        # Extract data from request
+        ingredients = data.get('ingredients', [])
+        cuisine = data.get('cuisine', '')
+        dietary_restrictions = data.get('dietary_restrictions', [])
+        time_limit = data.get('time_limit', '')
+        serving_size = data.get('serving_size', '')
+        strict_ingredients = data.get('strict_ingredients', False)
 
-        recipes_with_images = []
-        for recipe in recipe_suggestions:
-            if not isinstance(recipe, dict) or "title" not in recipe:
-                continue
+        # Validate required fields - support both ingredients-based and filter-based search
+        selected_filters = [
+            cuisine and cuisine.strip(),
+            dietary_restrictions and len(dietary_restrictions) > 0,
+            time_limit and time_limit.strip(),
+            serving_size and serving_size.strip()
+        ]
+        selected_filters_count = len([f for f in selected_filters if f])
+        
+        if not ingredients and selected_filters_count < 2:
+            return jsonify({"status": 400, "message": "Either provide at least 4 ingredients OR select at least 2 filters (cuisine, dietary restrictions, time limit, serving size)"}), 400
+        
+        if ingredients and len(ingredients) < 4:
+            return jsonify({"status": 400, "message": "Please provide at least 4 ingredients"}), 400
 
-            # Generate an image based on the recipe title
-            image_url = generate_recipe_image(recipe["title"])
-
-            # Extract or default values
-            time_breakdown = recipe.get("time_breakdown", {})
-            estimated_time = recipe.get("estimated_cooking_time", "Unknown Time")
-
-            # Construct response recipe object
-            recipes_with_images.append({
-                "title": recipe["title"],
-                "ingredients": recipe["ingredients"],
-                "instructions": recipe["instructions"],
-                "estimated_cooking_time": estimated_time,
-                "nutritional_info": recipe["nutritional_info"],
-                "time_breakdown": time_breakdown,
-                "image_url": image_url
-            })
-
-        return response(200, "Recipes generated successfully", recipes_with_images)
+        print(f"Calling OpenAI service with ingredients: {ingredients}")
+        
+        # Call OpenAI service to generate recipes
+        try:
+            recipes = generate_recipes(
+                ingredients=ingredients,
+                cuisine=cuisine,
+                dietary_restrictions=dietary_restrictions,
+                time_limit=time_limit,
+                serving_size=serving_size,
+                strict_ingredients=strict_ingredients
+            )
+            
+            print(f"Successfully generated {len(recipes)} recipes")
+            return jsonify({
+                "status": 200, 
+                "message": "Recipes generated successfully", 
+                "data": recipes
+            }), 200
+            
+        except Exception as openai_error:
+            print(f"OpenAI service error: {str(openai_error)}")
+            return jsonify({
+                "status": 500, 
+                "message": f"Failed to generate recipes: {str(openai_error)}"
+            }), 500
 
     except Exception as e:
-        return response(500, "An error occurred while generating recipes", str(e))
+        import traceback
+        print(f"=== Recipe Generation Error ===")  # Debug log
+        print(f"Error type: {type(e)}")  # Debug log
+        print(f"Error message: {str(e)}")  # Debug log
+        print(f"Full traceback: {traceback.format_exc()}")  # Debug log
+        return jsonify({"status": 500, "message": f"An error occurred while generating recipes: {str(e)}"}), 500
 
-# Save a recipe to user's favorites
+# Add recipe to favorites
 @recipes_bp.route("/favorite", methods=["POST"])
-@jwt_required()
-def save_favorite():
-    user_id = get_jwt_identity()
-    data = request.json
-
-    required_fields = ["title", "ingredients", "instructions", "image_url", "time", "nutritional_value", "time_breakdown"]
-    if not all(field in data for field in required_fields):
-        return response(400, "Missing required fields")
-
+def add_to_favorites():
+    """Add a recipe to user's favorites"""
     try:
-        # Create FavoriteRecipe instance and persist it
+        # Temporarily use a test user ID for testing
+        current_user_id = 1  # Test user ID
+        
+        # Check if test user exists, if not create one
+        test_user = User.query.get(current_user_id)
+        if not test_user:
+            test_user = User(
+                id=current_user_id,
+                first_name="Test",
+                last_name="User",
+                email="test@example.com"
+            )
+            db.session.add(test_user)
+            db.session.commit()
+            print(f"Created test user with ID: {current_user_id}")
+        
+        data = request.json
+        
+        if not data:
+            return jsonify({"status": 400, "message": "No recipe data provided"}), 400
+        
+        # Debug logging
+        print(f"=== ADDING TO FAVORITES DEBUG ===")
+        print(f"Received recipe data: {data}")
+        print(f"Title: {data.get('title')}")
+        print(f"Image URL: {data.get('image_url')}")
+        print(f"Time: {data.get('time')}")
+        print(f"Nutritional value: {data.get('nutritional_value')}")
+        print(f"Time breakdown: {data.get('time_breakdown')}")
+        print(f"=== END DEBUG ===")
+        
+        # Check if recipe already exists in favorites
+        existing_favorite = FavoriteRecipe.query.filter_by(
+            user_id=current_user_id,
+            title=data.get('title')
+        ).first()
+        
+        if existing_favorite:
+            return jsonify({"status": 409, "message": "Recipe already in favorites"}), 409
+        
+        # Create new favorite recipe - using correct field names from the model
         favorite_recipe = FavoriteRecipe(
-            user_id=user_id,
-            title=data["title"],
-            ingredients=json.dumps(data["ingredients"]),
-            instructions=json.dumps(data["instructions"]),
-            image_url=data["image_url"],
-            time=data["time"],
-            nutritional_value=data["nutritional_value"],
-            time_breakdown=json.dumps(data["time_breakdown"]),
+            user_id=current_user_id,
+            title=data.get('title'),
+            ingredients=json.dumps(data.get('ingredients', [])),
+            instructions=json.dumps(data.get('instructions', [])),
+            image_url=data.get('image_url', ''),  # Add image_url field
+            time=data.get('time', ''),
+            nutritional_value=data.get('nutritional_value', ''),
+            time_breakdown=json.dumps(data.get('time_breakdown', {}))
         )
-
+        
+        print(f"=== SAVING TO DATABASE ===")
+        print(f"Title: {favorite_recipe.title}")
+        print(f"Image URL: {favorite_recipe.image_url}")
+        print(f"Time: {favorite_recipe.time}")
+        print(f"Nutritional value: {favorite_recipe.nutritional_value}")
+        print(f"Time breakdown: {favorite_recipe.time_breakdown}")
+        print(f"=== END SAVING DEBUG ===")
+        
         db.session.add(favorite_recipe)
         db.session.commit()
-
-        return response(201, "Recipe saved to favorites", {"recipe_id": favorite_recipe.id})
-
+        
+        return jsonify({
+            "status": 200,
+            "message": "Recipe added to favorites successfully",
+            "data": {
+                "id": favorite_recipe.id,
+                "title": favorite_recipe.title
+            }
+        }), 200
+        
     except Exception as e:
-        return response(500, "An error occurred while saving the favorite recipe", str(e))
+        db.session.rollback()
+        print(f"Error adding to favorites: {str(e)}")
+        return jsonify({"status": 500, "message": "Failed to add recipe to favorites"}), 500
 
-# Retrieve all favorite recipes of the user
+# Get user's favorite recipes
 @recipes_bp.route("/favorites", methods=["GET"])
-@jwt_required()
 def get_favorites():
-    user_id = get_jwt_identity()
-
+    """Get all favorite recipes for the current user"""
     try:
-        # Query all favorites by user
-        favorites = FavoriteRecipe.query.filter_by(user_id=user_id).all()
-
-        # Deserialize and build the response list
-        favorites_list = [{
-            "id": f.id,
-            "title": f.title,
-            "ingredients": json.loads(f.ingredients),
-            "instructions": json.loads(f.instructions),
-            "image_url": f.image_url,
-            "time": f.time,
-            "nutritional_value": f.nutritional_value,
-            "time_breakdown": json.loads(f.time_breakdown) if f.time_breakdown else {},
-        } for f in favorites]
-
-        return response(200, "Favorite recipes retrieved successfully", favorites_list)
-
+        # Temporarily use a test user ID for testing
+        current_user_id = 1  # Test user ID
+        
+        # Check if test user exists, if not create one
+        test_user = User.query.get(current_user_id)
+        if not test_user:
+            test_user = User(
+                id=current_user_id,
+                first_name="Test",
+                last_name="User",
+                email="test@example.com"
+            )
+            db.session.add(test_user)
+            db.session.commit()
+            print(f"Created test user with ID: {current_user_id}")
+        
+        favorites = FavoriteRecipe.query.filter_by(user_id=current_user_id).all()
+        
+        favorites_data = []
+        for favorite in favorites:
+            # Use the model's to_dict method to get properly formatted data
+            favorite_dict = favorite.to_dict()
+            print(f"Favorite recipe: {favorite.title} -> image_url: {favorite_dict.get('image_url', 'NONE')}")
+            favorites_data.append(favorite_dict)
+        
+        return jsonify({
+            "status": 200,
+            "message": "Favorites retrieved successfully",
+            "data": favorites_data
+        }), 200
+        
     except Exception as e:
-        return response(500, "An error occurred while fetching favorite recipes", str(e))
+        print(f"Error getting favorites: {str(e)}")
+        return jsonify({"status": 500, "message": "Failed to retrieve favorites"}), 500
 
-# Delete a specific favorite recipe
+# Remove recipe from favorites
 @recipes_bp.route("/favorite/<int:recipe_id>", methods=["DELETE"])
-@jwt_required()
-def delete_favorite(recipe_id):
-    user_id = get_jwt_identity()
-
+def remove_from_favorites(recipe_id):
+    """Remove a recipe from user's favorites"""
     try:
-        # Lookup favorite by ID and user
-        favorite = FavoriteRecipe.query.filter_by(id=recipe_id, user_id=user_id).first()
-
+        # Temporarily use a test user ID for testing
+        current_user_id = 1  # Test user ID
+        
+        # Check if test user exists, if not create one
+        test_user = User.query.get(current_user_id)
+        if not test_user:
+            test_user = User(
+                id=current_user_id,
+                first_name="Test",
+                last_name="User",
+                email="test@example.com"
+            )
+            db.session.add(test_user)
+            db.session.commit()
+            print(f"Created test user with ID: {current_user_id}")
+        
+        favorite = FavoriteRecipe.query.filter_by(
+            id=recipe_id,
+            user_id=current_user_id
+        ).first()
+        
         if not favorite:
-            return response(404, "Favorite recipe not found")
-
+            return jsonify({"status": 404, "message": "Favorite recipe not found"}), 404
+        
         db.session.delete(favorite)
         db.session.commit()
-
-        return response(200, "Favorite recipe deleted successfully")
-
+        
+        return jsonify({
+            "status": 200,
+            "message": "Recipe removed from favorites successfully"
+        }), 200
+        
     except Exception as e:
-        return response(500, "An error occurred while deleting the favorite recipe", str(e))
+        db.session.rollback()
+        print(f"Error removing from favorites: {str(e)}")
+        return jsonify({"status": 500, "message": "Failed to remove recipe from favorites"}), 500

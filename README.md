@@ -1,137 +1,88 @@
-# CulinaMind - AI Recipe Assistant
+# CulinaMind - Culinary AI Agent
 
-CulinaMind is an AI-powered recipe assistant web application designed to generate personalized, detailed, and nutritious cooking recipes based on your available ingredients, dietary preferences, cuisine choice, time limit, and more.
+CulinaMind is an intelligent AI agent that helps you discover, create, and plan your culinary journey. Whether you need recipe inspiration, cooking guidance, or meal planning assistance, CulinaMind leverages advanced AI to provide personalized culinary solutions.
 
-## Features
+## 🍳 Core Features
 
-- Generate 4 Personalized Recipes based on:
-  - Ingredients
-  - Preferred cuisine or 'Surprise Me' mode
-  - Dietary restrictions (e.g., vegan, gluten-free)
-  - Time constraints
-  - Serving size
+### Recipe Generation & Discovery
+- Generate personalized recipes from available ingredients
+- Filter by cuisine, dietary restrictions, time constraints, and serving size
+- AI-generated cooking instructions with nutritional information based on the filters
+- High-quality food images using DALL·E 3
 
-- Each Recipe conatins:
-  - Ingredient Quantities
-  - Cooking Instructions
-  - Time Breakdown
-  - Nutritional Information
-  - High-Quality Food Images using DALL·E 3
+### AI Culinary Assistant
+- Advanced RAG system with 18+ curated culinary knowledge items
+- Semantic search powered by vector embeddings and FAISS
+- Real-time cooking tips, technique explanations, and recipe modifications
+- Integration with external recipe APIs (Spoonacular, Edamam)
 
-- Save your favorite recipes to your profile
+### Meal Planning (Coming Soon)
+- AI-powered weekly meal planning
+- Smart ingredient optimization and shopping lists
+- Dietary goal tracking and nutritional balance
+- Seasonal and trending recipe suggestions
 
-- Authenticate via email/password or Google OAuth
+### Recipe Management
+- Save and organize favorite recipes
+- Secure authentication with email/password or Google OAuth
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- Flask (Python web framework)
+**Backend**: Flask, SQLAlchemy, PostgreSQL, OpenAI GPT-4/DALL·E 3, FAISS  
+**Frontend**: React 19, TypeScript, Tailwind CSS, Vite  
+**AI/ML**: Vector embeddings, RAG system, semantic search  
+**APIs**: Spoonacular, Edamam, News API integration
 
-SQLAlchemy (ORM for database)
+## 🚀 Quick Start
 
-Flask-JWT-Extended (Auth with JWT)
+### Prerequisites
+- Python 3.8+, Node.js 18+, PostgreSQL
+- OpenAI API key, Google OAuth credentials
 
-OpenAI GPT-4 + DALL·E 3 (AI-generated recipes & images)
-
-PostgreSQL (Database)
-
-SMTP (Gmail support for login)
-
-## How to Run the App?
-
-### 1. Clone the Rep in your VS code:
-
-```bash
-git clone https://github.com/your-username/culinamind.git
-```
-### 2- Run the backend:
-
-Open a terminal in the backend directory or:
-
+### Backend Setup
 ```bash
 cd backend
-```
-
-Create a virtual environment:
-
-```bash
-# For macOS/Linux
 python3 -m venv venv
-
-# For Windows
-python -m venv venv
-```
-
-Activate the virtial environment:
-
-```bash
-# macOS/Linux
-source venv/bin/activate
-
-# Windows
-venv\Scripts\activate
-```
-
-Install Python Dependencies:
-
-```bash
-pip install --upgrade pip
+source venv/bin/activate  # macOS/Linux
 pip install -r requirements.txt
 ```
 
-Configure environemnt variables in .env:
-
+Create `.env` file with:
 ```bash
-FLASK_APP=run.py
-FLASK_ENV=development
-
-# OpenAI
+FLASK_APP=app.py
 OPENAI_API_KEY=your_openai_api_key
 GOOGLE_CLIENT_ID=your_google_client_id
-
-# JWT
 JWT_SECRET_KEY=your_jwt_secret_key
-
-# Email SMTP
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_HOST_USER=your_email@gmail.com
-EMAIL_HOST_PASSWORD=your_email_password
-DEFAULT_FROM_EMAIL=your_email@gmail.com
+DATABASE_URL=postgresql://username:password@localhost/culinamind
+SPOONACULAR_API_KEY=your_spoonacular_key
+EDAMAM_APP_ID=your_edamam_app_id
+EDAMAM_APP_KEY=your_edamam_app_key
 ```
-Run database migration:
 
 ```bash
 flask db upgrade
-```
-
-Run the Flask App:
-
-```bash
 flask run
 ```
 
-### 3- Run the fackend:
-
-Open a terminal in the frontend directory or:
-
+### Frontend Setup
 ```bash
 cd frontend
-```
-
-Make sure both both the ```node_modules``` directory and the ```package-lock.json``` file aren't already present in the frontend. If they're, remove them:
-
-```
-rm -rf node_modules package-lock.json
-```
-
-Install frontend dependencies:
-
-```bash
 npm install
+npm run dev
 ```
 
-Start the server:
+Visit `http://localhost:5173`
 
-```bash
-npm install
-```
+## 🎯 Key API Endpoints
+
+**Authentication**: `/auth/register`, `/auth/login`, `/auth/google`  
+**Recipes**: `/recipes/generate`, `/recipes/favorites`  
+**AI Assistant**: `/ai/chat`, `/ai/health`, `/ai/modify-recipe`
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
