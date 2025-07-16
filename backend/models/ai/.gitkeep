@@ -1,0 +1,2 @@
+# This file ensures the AI models directory is tracked by git
+# AI model files (.pkl, .bin) will be stored here 
