@@ -1,0 +1,16 @@
+{
+  "session_id": "497c3dfa-a12a-4a5e-9ff1-25989a1e2537",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:30:15.338655",
+      "user_message": "I'm making a desi dipping sauce, and I want sour and tangy taste",
+      "ai_response": "That sounds delicious! For your desi dipping sauce with a sour and tangy taste, have you considered incorporating ingredients like yogurt, lemon juice, vinegar, or tamarind? These ingredients can help achieve the desired flavor profile. \n\nDo you have any preferences among those ingredients or any specific dietary considerations you would like me to keep in mind while suggesting the recipe or adjusting the flavors?",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:30:15.338659"
+}

@@ -1,0 +1,32 @@
+{
+  "user_id": "test_user_integration",
+  "skill_level": "intermediate",
+  "dietary_restrictions": [
+    "vegetarian"
+  ],
+  "cuisine_preferences": [
+    "italian",
+    "mexican"
+  ],
+  "cooking_equipment": [
+    "oven",
+    "stovetop",
+    "blender"
+  ],
+  "ingredient_preferences": [
+    "tomatoes",
+    "basil",
+    "garlic",
+    "olive_oil"
+  ],
+  "ingredient_dislikes": [
+    "mushrooms",
+    "anchovies"
+  ],
+  "cooking_time_preferences": {},
+  "serving_size_preferences": {},
+  "health_goals": [
+    "weight_loss"
+  ],
+  "last_updated": "2025-09-05 22:21:42.308245"
+}

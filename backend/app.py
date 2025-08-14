@@ -10,6 +10,7 @@ from models import db, bcrypt
 from routes.auth import auth_bp
 from routes.recipes import recipes_bp
 from routes.ai_chatbot import ai_chatbot_bp
+from routes.mcp_validation_anthropic import anthropic_mcp_validation_bp
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -32,6 +33,8 @@ print("🔥 Registering recipes blueprint...")  # Debug log
 app.register_blueprint(recipes_bp, url_prefix="/recipes")
 print("🔥 Registering AI chatbot blueprint...")  # Debug log
 app.register_blueprint(ai_chatbot_bp, url_prefix="/ai")
+print("🔥 Registering Anthropic MCP validation blueprint...")  # Debug log
+app.register_blueprint(anthropic_mcp_validation_bp, url_prefix="/anthropic-mcp")
 print("🔥 All blueprints registered!")  # Debug log
 
 # Debug: List all registered routes
@@ -49,4 +52,6 @@ def debug_routes():
 
 # Run the app
 if __name__ == '__main__':
+    print("🚀 Starting CulinaMind Flask app...")
+    print("🔥 Using Anthropic MCP for web search validation!")
     app.run(debug=True, port=5001)

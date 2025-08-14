@@ -1,0 +1,310 @@
+{
+  "session_id": "test",
+  "user_id": "test",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:15:11.468621",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? Whether you're seeking recipes, culinary advice, food science insights, or cultural cooking tips, feel free to ask away!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:15:14.491110",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? Whether you're looking for recipes, culinary advice, food science insights, or cultural cooking tips, feel free to ask away!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:18:56.904865",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? Whether you're seeking recipes, culinary advice, food science insights, or cultural cooking tips, feel free to ask away! If you have any specific questions or need guidance on a particular cooking topic, feel free to let me know!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:19:11.311078",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? If you have any specific questions or need guidance on a particular cooking topic, feel free to let me know!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:19:12.487407",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? If you have any specific questions or need guidance on a particular cooking topic, feel free to let me know!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:19:31.502511",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? If you have any specific questions or need guidance on a particular cooking topic, feel free to let me know!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:19:32.198195",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? If you have any specific questions or need guidance on a particular cooking topic, feel free to let me know!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:19:33.640920",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? If you have any specific questions or need guidance on a particular cooking topic, feel free to let me know!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:19:46.771484",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? If you have any specific questions or need guidance on a particular cooking topic, feel free to let me know!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:19:48.830999",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? If you have any specific questions or need guidance on a particular cooking topic, feel free to let me know!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:22:49.168062",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? If you have any specific questions or need guidance on a particular cooking topic, feel free to let me know!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:22:59.842369",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to see you again! What culinary topic or cooking question would you like to explore today? Are you looking to learn something new, get tips on a specific dish, or maybe delve into food science or cultural cooking practices? Let me know how I can assist you today!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:23:02.477376",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! What culinary topic or cooking question would you like to explore today? Are you interested in learning something new, getting tips on a specific dish, or perhaps delving into food science or cultural cooking practices? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:23:05.055106",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back to CulinaMind! What culinary topic or cooking question would you like to explore today? Are you interested in learning something new, getting tips on a specific dish, or perhaps delving into food science or cultural cooking practices? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:23:05.939430",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you back! What culinary topic or cooking question would you like to explore today? Are you interested in learning something new, getting tips on a specific dish, or perhaps delving into food science or cultural cooking practices? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:23:38.280369",
+      "user_message": "Hello",
+      "ai_response": "Hello there! Welcome back to CulinaMind! What culinary topic or cooking question would you like to explore today? Are you interested in learning something new, getting tips on a specific dish, or perhaps delving into food science or cultural cooking practices? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:23:39.075047",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! What culinary topic or cooking question would you like to explore today? Are you interested in learning something new, getting tips on a specific dish, or perhaps delving into food science or cultural cooking practices? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:25:37.642157",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you back! What culinary topic or cooking question would you like to explore today? Are you interested in learning something new, getting tips on a specific dish, or perhaps delving into food science or cultural cooking practices? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:25:40.117330",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to see you again! What culinary topic or cooking question are you interested in exploring today? Do you have a specific dish in mind, or are you looking to learn something new about food science, cultural cooking practices, or maybe some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:25:48.241480",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you back! What culinary topic or cooking question would you like to explore today? Are you interested in learning something new, getting tips on a specific dish, or perhaps delving into food science or cultural cooking practices? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:25:53.928033",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! What culinary topic or cooking question would you like to explore today? Are you thinking about trying a new recipe, learning about a specific cuisine, understanding food science, or perhaps getting some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:25:54.902907",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you here. What culinary topic or cooking question are you interested in exploring today? Do you have a specific dish in mind, or are you looking to learn something new about food science, cultural cooking practices, or maybe some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:26:15.587284",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you here. What culinary topic or cooking question are you interested in exploring today? Do you have a specific dish in mind, or are you looking to learn something new about food science, cultural cooking practices, or maybe some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:26:16.914117",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you back! What culinary topic or cooking question would you like to explore today? Are you interested in learning something new, getting tips on a specific dish, or perhaps delving into food science or cultural cooking practices? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:26:30.105002",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to see you again. What culinary topic or cooking question are you interested in exploring today? Are you thinking about trying a new recipe, learning about a specific cuisine, understanding food science, or maybe getting some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:26:31.134741",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! It's great to have you here. What culinary topic or cooking question are you interested in exploring today? Do you have a specific dish in mind, or are you looking to learn something new about food science, cultural cooking practices, or maybe some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:27:20.538468",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you here. What culinary topic or cooking question are you interested in exploring today? Do you have a specific dish in mind, or are you looking to learn something new about food science, cultural cooking practices, or maybe some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:27:21.443884",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you here. What culinary topic or cooking question are you interested in exploring today? Do you have a specific dish in mind, or are you looking to learn something new about food science, cultural cooking practices, or maybe some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:27:29.010882",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you back! What culinary topic or cooking question would you like to explore today? Are you interested in learning something new, getting tips on a specific dish, or perhaps delving into food science or cultural cooking practices? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:27:30.185000",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to see you again. What culinary topic or cooking question are you interested in exploring today? Are you thinking about trying a new recipe, learning about a specific cuisine, understanding food science, or maybe getting some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:27:33.533157",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you here. What culinary topic or cooking question are you interested in exploring today? Are you thinking about trying a new recipe, learning about a specific cuisine, understanding food science, or maybe getting some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:27:34.906727",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you here. What culinary topic or cooking question are you interested in exploring today? Are you thinking about trying a new recipe, learning about a specific cuisine, understanding food science, or maybe getting some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:27:42.273772",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you here. What culinary topic or cooking question are you interested in exploring today? Are you thinking about trying a new recipe, learning about a specific cuisine, understanding food science, or maybe getting some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:27:43.427170",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you here. What culinary topic or cooking question are you interested in exploring today? Are you thinking about trying a new recipe, learning about a specific cuisine, understanding food science, or maybe getting some cooking tips? Let me know how I can assist you today! What's on your mind?",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:29:37.603664",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! It's great to have you here. How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for? Let me know what you're thinking about!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:29:44.792091",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! It's great to have you here. How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for? Let me know what you're thinking about!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:29:45.807650",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! It's great to see you again. How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for? Let me know what you're thinking about!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:30:15.407647",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! It's great to have you here again. How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for? Let me know what you're thinking about!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:30:16.911491",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you here again. How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for? Let me know what you're thinking about!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:30:30.022356",
+      "user_message": "Hello",
+      "ai_response": "Hello! It's great to have you here again. How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for? Let me know what's on your mind!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:30:31.194671",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! It's great to have you here again. How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for? Let me know what's on your mind!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:30:49.711917",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! It's great to have you here again. How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for? Let me know what's on your mind!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:30:51.353055",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! It's great to see you again. How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for? Let me know what's on your mind!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:30:57.838235",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! It's great to have you here again. How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for? Let me know what's on your mind!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:30:59.956456",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! It's great to have you here again. How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for since you're a beginner in cooking? Let me know how I can help you today!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:31:17.061799",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! It's great to have you here again. How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or perhaps some cooking tips you're looking for since you're a beginner in cooking? Let me know how I can help you today!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:31:18.285730",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for? Let me know what's on your mind!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:32:09.948649",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for? Let me know how I can help you today!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:32:13.417026",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or perhaps some cooking tips you're looking for since you're a beginner in cooking? Let me know how I can help you today!",
+      "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-25T22:33:41.563348",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for since you're a beginner in cooking? Let me know how I can help you today!",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:33:41.563464"
+}

@@ -1,12 +1,19 @@
 from flask import Blueprint, request, jsonify
 import os
-from utils.openai_service import generate_recipes
+from utils.enhanced_rag_service import EnhancedRAGService
+from utils.context_manager import ContextManager
 from models import db, User, FavoriteRecipe
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import json
+import uuid
+from datetime import datetime
 
 # Define Blueprint for recipe-related routes
 recipes_bp = Blueprint("recipes", __name__)
+
+# Initialize context-aware RAG service
+context_manager = ContextManager()
+rag_service = EnhancedRAGService(context_manager)
 
 # Simple test route
 @recipes_bp.route("/ping", methods=["GET"])
@@ -67,17 +74,22 @@ def test_dalle():
         print(f"Full traceback: {traceback.format_exc()}")
         return jsonify({"status": 500, "message": f"DALL-E test failed: {str(e)}"}), 500
 
-# Generate recipes route (simplified)
+# Generate recipes route with context engineering
 @recipes_bp.route("/generate_recipes", methods=["POST"])
+@jwt_required()
 def generate_recipe_suggestions():
-    """ Generates 4 AI-based recipe suggestions based on user inputs. """
-
-    print("🔥 RECIPE ROUTE HIT! 🔥")  # Simple verification
-    print("=== Recipe Generation Started ===")  # Debug log
+    """Generate context-aware recipe suggestions using the full context engineering system"""
+    
+    print("🔥 CONTEXT-AWARE RECIPE ROUTE HIT! 🔥")  # Simple verification
+    print("=== Context-Aware Recipe Generation Started ===")  # Debug log
     
     try:
-        user_id = "test_user"  # Temporary test user
+        # Get user ID from JWT token
+        user_id = get_jwt_identity()
+        session_id = request.json.get('session_id', str(uuid.uuid4()))
+        
         print(f"User ID: {user_id}")  # Debug log
+        print(f"Session ID: {session_id}")  # Debug log
         
         try:
             data = request.json
@@ -97,6 +109,7 @@ def generate_recipe_suggestions():
         time_limit = data.get('time_limit', '')
         serving_size = data.get('serving_size', '')
         strict_ingredients = data.get('strict_ingredients', False)
+        exemption = data.get('exemption', '')
 
         # Validate required fields - support both ingredients-based and filter-based search
         selected_filters = [
@@ -113,61 +126,55 @@ def generate_recipe_suggestions():
         if ingredients and len(ingredients) < 4:
             return jsonify({"status": 400, "message": "Please provide at least 4 ingredients"}), 400
 
-        print(f"Calling OpenAI service with ingredients: {ingredients}")
+        print(f"Calling context-aware RAG service with ingredients: {ingredients}")
         
-        # Call OpenAI service to generate recipes
+        # Call context-aware RAG service to generate recipes
         try:
-            recipes = generate_recipes(
+            recipes = rag_service.generate_contextual_recipes(
+                user_id=user_id,
+                session_id=session_id,
                 ingredients=ingredients,
                 cuisine=cuisine,
                 dietary_restrictions=dietary_restrictions,
                 time_limit=time_limit,
                 serving_size=serving_size,
-                strict_ingredients=strict_ingredients
+                strict_ingredients=strict_ingredients,
+                exemption=exemption
             )
             
-            print(f"Successfully generated {len(recipes)} recipes")
+            print(f"Successfully generated {len(recipes)} context-aware recipes")
             return jsonify({
                 "status": 200, 
-                "message": "Recipes generated successfully", 
-                "data": recipes
+                "message": "Context-aware recipes generated successfully", 
+                "data": recipes,
+                "context_enhanced": True,
+                "user_id": user_id,
+                "session_id": session_id
             }), 200
             
-        except Exception as openai_error:
-            print(f"OpenAI service error: {str(openai_error)}")
+        except Exception as rag_error:
+            print(f"Context-aware RAG service error: {str(rag_error)}")
             return jsonify({
                 "status": 500, 
-                "message": f"Failed to generate recipes: {str(openai_error)}"
+                "message": f"Failed to generate context-aware recipes: {str(rag_error)}"
             }), 500
 
     except Exception as e:
         import traceback
-        print(f"=== Recipe Generation Error ===")  # Debug log
+        print(f"=== Context-Aware Recipe Generation Error ===")  # Debug log
         print(f"Error type: {type(e)}")  # Debug log
         print(f"Error message: {str(e)}")  # Debug log
         print(f"Full traceback: {traceback.format_exc()}")  # Debug log
-        return jsonify({"status": 500, "message": f"An error occurred while generating recipes: {str(e)}"}), 500
+        return jsonify({"status": 500, "message": f"An error occurred while generating context-aware recipes: {str(e)}"}), 500
 
 # Add recipe to favorites
 @recipes_bp.route("/favorite", methods=["POST"])
+@jwt_required()
 def add_to_favorites():
     """Add a recipe to user's favorites"""
     try:
-        # Temporarily use a test user ID for testing
-        current_user_id = 1  # Test user ID
-        
-        # Check if test user exists, if not create one
-        test_user = User.query.get(current_user_id)
-        if not test_user:
-            test_user = User(
-                id=current_user_id,
-                first_name="Test",
-                last_name="User",
-                email="test@example.com"
-            )
-            db.session.add(test_user)
-            db.session.commit()
-            print(f"Created test user with ID: {current_user_id}")
+        # Get user ID from JWT token
+        current_user_id = get_jwt_identity()
         
         data = request.json
         
@@ -199,7 +206,7 @@ def add_to_favorites():
             title=data.get('title'),
             ingredients=json.dumps(data.get('ingredients', [])),
             instructions=json.dumps(data.get('instructions', [])),
-            image_url=data.get('image_url', ''),  # Add image_url field
+            image_url=data.get('image_url', ''),
             time=data.get('time', ''),
             nutritional_value=data.get('nutritional_value', ''),
             time_breakdown=json.dumps(data.get('time_breakdown', {}))
@@ -232,24 +239,12 @@ def add_to_favorites():
 
 # Get user's favorite recipes
 @recipes_bp.route("/favorites", methods=["GET"])
+@jwt_required()
 def get_favorites():
     """Get all favorite recipes for the current user"""
     try:
-        # Temporarily use a test user ID for testing
-        current_user_id = 1  # Test user ID
-        
-        # Check if test user exists, if not create one
-        test_user = User.query.get(current_user_id)
-        if not test_user:
-            test_user = User(
-                id=current_user_id,
-                first_name="Test",
-                last_name="User",
-                email="test@example.com"
-            )
-            db.session.add(test_user)
-            db.session.commit()
-            print(f"Created test user with ID: {current_user_id}")
+        # Get user ID from JWT token
+        current_user_id = get_jwt_identity()
         
         favorites = FavoriteRecipe.query.filter_by(user_id=current_user_id).all()
         
@@ -272,24 +267,12 @@ def get_favorites():
 
 # Remove recipe from favorites
 @recipes_bp.route("/favorite/<int:recipe_id>", methods=["DELETE"])
+@jwt_required()
 def remove_from_favorites(recipe_id):
     """Remove a recipe from user's favorites"""
     try:
-        # Temporarily use a test user ID for testing
-        current_user_id = 1  # Test user ID
-        
-        # Check if test user exists, if not create one
-        test_user = User.query.get(current_user_id)
-        if not test_user:
-            test_user = User(
-                id=current_user_id,
-                first_name="Test",
-                last_name="User",
-                email="test@example.com"
-            )
-            db.session.add(test_user)
-            db.session.commit()
-            print(f"Created test user with ID: {current_user_id}")
+        # Get user ID from JWT token
+        current_user_id = get_jwt_identity()
         
         favorite = FavoriteRecipe.query.filter_by(
             id=recipe_id,
@@ -311,3 +294,95 @@ def remove_from_favorites(recipe_id):
         db.session.rollback()
         print(f"Error removing from favorites: {str(e)}")
         return jsonify({"status": 500, "message": "Failed to remove recipe from favorites"}), 500
+
+# New endpoint: Get personalized recipe recommendations
+@recipes_bp.route("/recommendations", methods=["GET"])
+@jwt_required()
+def get_personalized_recommendations():
+    """Get personalized recipe recommendations based on user profile"""
+    try:
+        user_id = get_jwt_identity()
+        query = request.args.get('query', 'recipe recommendations')
+        
+        recommendations = rag_service.get_personalized_recommendations(user_id, query)
+        
+        return jsonify({
+            "status": 200,
+            "message": "Personalized recommendations retrieved successfully",
+            "data": recommendations
+        }), 200
+        
+    except Exception as e:
+        print(f"Error getting recommendations: {str(e)}")
+        return jsonify({"status": 500, "message": "Failed to retrieve recommendations"}), 500
+
+# New endpoint: Update user preferences for recipe generation
+@recipes_bp.route("/update-preferences", methods=["POST"])
+@jwt_required()
+def update_recipe_preferences():
+    """Update user preferences for recipe generation"""
+    try:
+        user_id = get_jwt_identity()
+        data = request.json
+        
+        if not data:
+            return jsonify({"status": 400, "message": "No preference data provided"}), 400
+        
+        success = rag_service.update_user_preferences(user_id, data)
+        
+        if success:
+            return jsonify({
+                "status": 200,
+                "message": "Preferences updated successfully"
+            }), 200
+        else:
+            return jsonify({
+                "status": 500,
+                "message": "Failed to update preferences"
+            }), 500
+            
+    except Exception as e:
+        print(f"Error updating preferences: {str(e)}")
+        return jsonify({"status": 500, "message": "Failed to update preferences"}), 500
+
+
+# Get user preferences
+@recipes_bp.route("/preferences", methods=["GET"])
+@jwt_required()
+def get_user_preferences():
+    """Get user preferences for recipe generation"""
+    try:
+        user_id = get_jwt_identity()
+        
+        # Load user profile which contains all preferences
+        user_profile = context_manager.load_user_profile(user_id)
+        
+        if not user_profile:
+            return jsonify({
+                "status": 404,
+                "message": "User preferences not found"
+            }), 404
+        
+        # Convert to dict for JSON response
+        preferences = {
+            "skill_level": user_profile.skill_level,
+            "dietary_restrictions": user_profile.dietary_restrictions,
+            "cuisine_preferences": user_profile.cuisine_preferences,
+            "cooking_equipment": user_profile.cooking_equipment,
+            "ingredient_preferences": user_profile.ingredient_preferences,
+            "ingredient_dislikes": user_profile.ingredient_dislikes,
+            "health_goals": user_profile.health_goals,
+            "cooking_time_preferences": user_profile.cooking_time_preferences,
+            "serving_size_preferences": user_profile.serving_size_preferences,
+            "last_updated": user_profile.last_updated.isoformat() if user_profile.last_updated else None
+        }
+        
+        return jsonify({
+            "status": 200,
+            "message": "Preferences retrieved successfully",
+            "data": preferences
+        }), 200
+        
+    except Exception as e:
+        print(f"Error getting preferences: {str(e)}")
+        return jsonify({"status": 500, "message": "Failed to retrieve preferences"}), 500

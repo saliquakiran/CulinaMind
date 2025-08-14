@@ -1,0 +1,16 @@
+{
+  "session_id": "0306ec6a-a2ac-4412-84c3-fae30daa902e",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:19:11.575197",
+      "user_message": "How to store fresh herbs?",
+      "ai_response": "To store fresh herbs effectively, consider the following steps:\n\n1. **Trim the stems**: Remove any leaves from the lower part of the stems.\n2. **Water method**: Place the herbs in a glass of water (like a bouquet) and cover loosely with a plastic bag.\n3. **Refrigerate**: Store the glass in the refrigerator, changing the water every few days.\n4. **Wrap in damp paper towel**: For herbs like cilantro or parsley, wrap them in a damp paper towel before placing in a resealable bag in the fridge.",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:19:11.575203"
+}

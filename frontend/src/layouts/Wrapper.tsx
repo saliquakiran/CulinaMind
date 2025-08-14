@@ -2,11 +2,13 @@ import { FC, useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import DashboardNavbar from "../components/common/DashboardNavbar";
 import ProfileSettingsModal from "../components/auth/ProfileSettingsModal";
+import FloatingChatWidget from "../components/common/FloatingChatWidget";
 
 const Wrapper: FC = () => {
   const { pathname } = useLocation();
   const isLoginPage = pathname.includes("login");
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [userFirstName, setUserFirstName] = useState<string>("");
   const [userLastName, setUserLastName] = useState<string>("");
 
@@ -50,6 +52,10 @@ const Wrapper: FC = () => {
     }));
   };
 
+  const handleChatToggle = () => {
+    setIsChatOpen(!isChatOpen);
+  };
+
   return (
     <main className="w-full bg-transparent mx-auto relative transition-all">
       <div className="h-screen bg-[#F5F5F5] overflow-y-auto w-full">
@@ -77,6 +83,12 @@ const Wrapper: FC = () => {
           onProfileUpdate={handleProfileUpdateCallback}
         />
       )}
+
+      {/* Floating Chat Widget - Available on all pages */}
+      <FloatingChatWidget
+        isOpen={isChatOpen}
+        onToggle={handleChatToggle}
+      />
     </main>
   );
 };

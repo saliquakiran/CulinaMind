@@ -1,0 +1,21 @@
+{
+  "user_id": "test_user_minimal",
+  "skill_level": "beginner",
+  "dietary_restrictions": [],
+  "cuisine_preferences": [],
+  "cooking_equipment": [
+    "stovetop"
+  ],
+  "ingredient_preferences": [],
+  "ingredient_dislikes": [],
+  "cooking_time_preferences": {
+    "weekday": "",
+    "weekend": ""
+  },
+  "serving_size_preferences": {
+    "weekday": 2,
+    "weekend": 2
+  },
+  "health_goals": [],
+  "last_updated": "2025-09-05 22:43:49.893146"
+}

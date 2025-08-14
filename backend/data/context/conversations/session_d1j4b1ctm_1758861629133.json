@@ -1,0 +1,16 @@
+{
+  "session_id": "session_d1j4b1ctm_1758861629133",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T21:41:27.195032",
+      "user_message": "Generated recipes with ingredients: rice, milk, sugar, cream",
+      "ai_response": "Generated 4 personalized recipes",
+      "context_type": "recipe_generation"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 21:41:27.195041"
+}

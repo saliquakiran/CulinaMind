@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Wrapper from "./layouts/Wrapper";
 import Welcome from "./pages/home/Welcome";
-import Login from "./pages/auth/Login";
-import SignUp from "./pages/auth/SignUp";
+import Login from "./pages/auth/LoginWithPreferences";
+import SignUp from "./pages/auth/SignUpWithPreferences";
 import Dashboard from "./pages/dashboard";
 import VerifyOTP from "./pages/auth/VerifyOTP";
 import ResetPassword from "./pages/auth/ResetPassword";

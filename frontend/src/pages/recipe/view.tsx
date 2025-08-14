@@ -264,16 +264,6 @@ const Recipe = () => {
               Favorites
             </button>
             <button
-              onClick={() => setActiveTab('meal-plan')}
-              className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors ${
-                activeTab === 'meal-plan'
-                  ? 'border-[#9A61B0] text-[#9A61B0]'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Meal Plan
-            </button>
-            <button
               onClick={() => setActiveTab('ai-assistant')}
               className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'ai-assistant'
@@ -1821,24 +1811,6 @@ const Recipe = () => {
         </div>
       )}
 
-      {/* Meal Plan Tab Content */}
-      {activeTab === 'meal-plan' && (
-        <div className="max-w-6xl mx-auto px-6 py-12">
-          <div className="bg-white rounded-3xl shadow-2xl p-8 border border-purple-100">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-[#9A61B0] mb-2">
-                Meal Planning
-              </h2>
-              <p className="text-gray-600">
-                Plan your meals with AI assistance
-              </p>
-            </div>
-            <div className="text-center text-gray-500">
-              <p>Meal planning functionality coming soon...</p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* AI Assistant Tab Content */}
       {activeTab === 'ai-assistant' && (

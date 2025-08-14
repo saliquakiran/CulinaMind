@@ -1,0 +1,231 @@
+import { FormEvent, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { loginUser, loginWithGoogle, updateUserPreferences } from "../../services/api";
+import Input from "../../components/ui/FloatingLabelInput";
+import Eye from "../../assets/icons/eye";
+import EyeSlash from "../../assets/icons/eye-slash";
+import ForgotPasswordModal from "../../components/auth/ForgotPasswordModal";
+import UserPreferencesModal from "../../components/preferences/UserPreferencesModal";
+import { toast } from "react-toastify";
+
+const GOOGLE_CLIENT_ID = "409907844476-eq9oh3fbjbphec1ldljni608sjpcnqnb.apps.googleusercontent.com";
+
+const LoginWithPreferences = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const isNewUser = searchParams.get('newUser') === 'true';
+  
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showPreferences, setShowPreferences] = useState(false);
+
+  const handleFormChange = (key: keyof typeof form, value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const checkUserPreferences = async (_userData: any) => {
+    // Only show preferences for new users (first login)
+    if (isNewUser) {
+      setShowPreferences(true);
+      return;
+    }
+    
+    // For returning users, go directly to dashboard
+    navigate("/dashboard");
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await loginUser(form);
+
+      if (response?.data?.access_token) {
+        localStorage.setItem("token", response.data.access_token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        toast.success(response.message);
+        
+        // Check if user needs to set preferences
+        await checkUserPreferences(response.data);
+      } else {
+        toast.error("Invalid response from server. Please try again.");
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    try {
+      const res = await loginWithGoogle({ token: credentialResponse.credential });
+
+      localStorage.setItem("token", res.data.access_token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      toast.success(res.message);
+      
+      // Check if user needs to set preferences
+      await checkUserPreferences(res.data);
+    } catch (error) {
+      toast.error("Google sign-in failed. Try again.");
+    }
+  };
+
+  const handleGoogleFailure = () => {
+    toast.error("Google sign-in failed. Try again.");
+  };
+
+  const handlePreferencesComplete = async (preferences: any) => {
+    try {
+      // Save preferences to backend
+      await updateUserPreferences(preferences);
+      
+      toast.success("Preferences saved successfully! Welcome to CulinaMind!");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error saving preferences:", error);
+      toast.error("Failed to save preferences. You can update them later in your profile.");
+      navigate("/dashboard");
+    }
+  };
+
+  const handleSkipPreferences = () => {
+    toast.success("You can set preferences later in your profile.");
+    navigate("/dashboard");
+  };
+
+  return (
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <div className="min-h-screen bg-gradient-to-br from-purple-200 via-purple-100 to-lavender-50 flex flex-col items-center justify-center px-6 py-8">
+        {/* Header with Logo */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center space-x-3 mb-4">
+            <div className="w-12 h-12 bg-[#9A61B0] rounded-full flex items-center justify-center shadow-lg">
+              <span className="text-white text-2xl font-bold">C</span>
+            </div>
+            <span className="text-3xl font-bold text-[#9A61B0]">CulinaMind</span>
+          </div>
+          <p className="text-gray-600 text-lg">
+            {isNewUser ? "Welcome! Please sign in to continue" : "Welcome back to your culinary journey"}
+          </p>
+        </div>
+
+        {/* Main Login Card */}
+        <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-purple-100 w-full max-w-md">
+          <h1 className="text-2xl font-bold text-center text-[#9A61B0] mb-8">Sign In</h1>
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Field */}
+            <Input
+              label="Email"
+              value={form.email}
+              onChange={({ target }) => handleFormChange("email", target.value)}
+            />
+
+            {/* Password Field */}
+            <Input
+              label="Password"
+              value={form.password}
+              onChange={({ target }) => handleFormChange("password", target.value)}
+              eyeIcon={<Eye />}
+              eyeSlashIcon={<EyeSlash />}
+              type="password"
+            />
+
+            {/* Forgot Password Link */}
+            <div className="text-right">
+              <button
+                type="button"
+                onClick={() => setShowForgotPassword(true)}
+                className="text-[#9A61B0] hover:text-[#8A50A0] text-sm font-medium hover:underline transition-colors"
+              >
+                Forgot your password?
+              </button>
+            </div>
+
+            {/* Sign In Button */}
+            <button
+              className="w-full bg-[#9A61B0] text-white py-3 px-6 rounded-xl font-semibold hover:bg-[#8A50A0] transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              disabled={loading}
+            >
+              {loading ? (
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Signing in...</span>
+                </div>
+              ) : (
+                "Sign In"
+              )}
+            </button>
+          </form>
+
+          {/* Sign Up link */}
+          <div className="text-center mt-6 pt-6 border-t border-gray-200">
+            <p className="text-gray-600 text-sm">
+              Don't have an account?{" "}
+              <a 
+                href="/signup" 
+                className="text-[#9A61B0] font-semibold hover:text-[#8A50A0] hover:underline transition-colors"
+              >
+                Sign up
+              </a>
+            </p>
+          </div>
+        </div>
+
+        {/* OR Divider */}
+        <div className="flex items-center my-6 w-full max-w-md">
+          <hr className="flex-grow border-gray-300" />
+          <span className="mx-4 text-gray-500 text-sm font-medium">or continue with</span>
+          <hr className="flex-grow border-gray-300" />
+        </div>
+
+        {/* Social Login */}
+        <div className="w-full max-w-md">
+          <div className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-purple-100">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleFailure}
+            />
+          </div>
+        </div>
+
+        {/* Back to Home */}
+        <div className="mt-8 text-center">
+          <a 
+            href="/" 
+            className="text-[#9A61B0] hover:text-[#8A50A0] font-medium hover:underline transition-colors"
+          >
+            ← Back to Home
+          </a>
+        </div>
+
+        {/* Forgot Password Modal */}
+        <ForgotPasswordModal
+          isOpen={showForgotPassword}
+          onClose={() => setShowForgotPassword(false)}
+        />
+
+        {/* User Preferences Modal - Only for new users */}
+        <UserPreferencesModal
+          isOpen={showPreferences}
+          onClose={handleSkipPreferences}
+          onComplete={handlePreferencesComplete}
+          isOnboarding={true}
+        />
+      </div>
+    </GoogleOAuthProvider>
+  );
+};
+
+export default LoginWithPreferences;

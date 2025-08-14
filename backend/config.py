@@ -21,3 +21,6 @@ class Config:
     GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
     FACEBOOK_CLIENT_ID = os.getenv("FACEBOOK_CLIENT_ID")
     FACEBOOK_CLIENT_SECRET = os.getenv("FACEBOOK_CLIENT_SECRET")
+
+    # Anthropic API Settings
+    ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")

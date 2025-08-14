@@ -1,0 +1,16 @@
+{
+  "session_id": "c3e17859-cb8d-4837-8316-c0b2b982fbe6",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:30:58.707553",
+      "user_message": "What can I substitute for eggs?",
+      "ai_response": "For substituting eggs in recipes, especially in baking, there are a few options depending on what you're making. Since you prefer German and Vietnamese cuisines and have a halal dietary restriction, you might want to consider the following alternatives:\n\n1. **Flaxseed or Chia Seed Eggs**: Mix 1 tablespoon of ground flaxseed or chia seeds with 3 tablespoons of water for each egg. Let it sit for a few minutes until it forms a gel-like consistency. This works well in recipes like pancakes, muffins, and quick breads.\n\n2. **Banana**: Use 1/4 cup of mashed ripe banana per egg. This provides moisture and binding similar to eggs. It's great for sweet baked goods like cakes and brownies.\n\n3. **Yogurt or Silken Tofu**: Substitute 1/4 cup of plain yogurt or blended silken tofu for each egg. This works best in recipes like muffins, cakes, and quick breads.\n\nConsidering your preferences and dietary restrictions, which of these egg substitutes are you interested in trying for your recipe? Let me know if you have a specific dish in mind so we can ensure the substitution fits well with it.",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:30:58.707561"
+}

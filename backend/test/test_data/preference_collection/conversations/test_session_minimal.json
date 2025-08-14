@@ -1,0 +1,16 @@
+{
+  "session_id": "test_session_minimal",
+  "user_id": "test_user_minimal",
+  "messages": [
+    {
+      "timestamp": "2025-09-05T22:44:34.937064",
+      "user_message": "Generated recipes with ingredients: chicken, rice, vegetables",
+      "ai_response": "Generated 4 personalized recipes",
+      "context_type": "recipe_generation"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-05 22:44:34.937101"
+}

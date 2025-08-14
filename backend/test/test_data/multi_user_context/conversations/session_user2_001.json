@@ -1,0 +1,34 @@
+{
+  "session_id": "session_user2_001",
+  "user_id": "user_456",
+  "messages": [
+    {
+      "timestamp": "2025-09-05T22:32:38.845368",
+      "user_message": "Generated recipes with ingredients: beef, chicken, spices",
+      "ai_response": "Generated 4 personalized recipes",
+      "context_type": "recipe_generation"
+    },
+    {
+      "timestamp": "2025-09-05T22:32:38.846810",
+      "user_message": "I want to make a spicy Mexican beef dish",
+      "ai_response": "I'll help you create an authentic Mexican beef recipe!",
+      "context_type": "recipe_generation"
+    },
+    {
+      "timestamp": "2025-09-05T22:34:13.814212",
+      "user_message": "Generated recipes with ingredients: beef, chicken, spices",
+      "ai_response": "Generated 4 personalized recipes",
+      "context_type": "recipe_generation"
+    },
+    {
+      "timestamp": "2025-09-05T22:34:13.819280",
+      "user_message": "I want to make a spicy Mexican beef dish",
+      "ai_response": "I'll help you create an authentic Mexican beef recipe!",
+      "context_type": "recipe_generation"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-05 22:34:13.819300"
+}

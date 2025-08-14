@@ -1,0 +1,18 @@
+{
+  "session_id": "session_user2_001",
+  "user_id": "user_456",
+  "current_ingredients": [
+    "beef",
+    "chicken",
+    "spices",
+    "tortillas"
+  ],
+  "current_cuisine": "mexican",
+  "current_dietary_restrictions": [
+    "gluten-free"
+  ],
+  "current_time_constraint": "45 minutes",
+  "current_serving_size": 4,
+  "cooking_mode": "strict_ingredients",
+  "session_start_time": "2025-09-05 22:33:23.145848"
+}

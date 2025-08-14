@@ -40,37 +40,71 @@ API.interceptors.response.use(
   }
 );
 
-// User Login
+// Helper function to generate session ID
+const generateSessionId = () => {
+  return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+};
+
+// Authentication APIs
 export const loginUser = async (credentials: { email: string; password: string }) => {
   return (await API.post("/auth/login", credentials)).data;
 };
 
-// Google Login
 export const loginWithGoogle = async (googleData: { token: string }) => {
   return (await API.post("/auth/login/google", googleData)).data;
 };
 
-
-// User Signup
 export const signUpUser = async (userData: { first_name: string; last_name: string; email: string; password: string }) => {
   return (await API.post("/auth/signup", userData)).data;
 };
 
-// Generate AI-Powered Recipes
+// User Profile APIs
+export const getUserProfile = async () => {
+  try {
+    const response = await API.get("/auth/profile");
+    return response.data.data;
+  } catch (error: any) {
+    console.error("Error fetching user profile:", error.response?.data || error);
+    throw error;
+  }
+};
+
+export const updateUserProfile = async (firstName: string, lastName: string) => {
+  try {
+    const response = await API.put("/auth/profile", { first_name: firstName, last_name: lastName });
+    return response.data.data;
+  } catch (error: any) {
+    console.error("Error updating user profile:", error.response?.data || error);
+    throw error;
+  }
+};
+
+// Recipe APIs
 export const generateRecipes = async (requestData: any) => {
   return (await API.post("/recipes/generate_recipes", requestData)).data;
 };
 
-// Add Recipe to Favorites
+export const generateContextAwareRecipes = async (requestData: any, sessionId?: string) => {
+  try {
+    const payload = {
+      ...requestData,
+      session_id: sessionId || generateSessionId()
+    };
+    const response = await API.post("/recipes/generate_recipes", payload);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error generating context-aware recipes:", error.response?.data || error);
+    throw error;
+  }
+};
+
 export const addRecipeToFavorites = async (recipeData: any) => {
   return (await API.post("/recipes/favorite", recipeData)).data;
 };
 
-// Fetch Favorite Recipes
 export const getFavorites = async () => {
   try {
     const response = await API.get("/recipes/favorites");
-
     if (response.data && Array.isArray(response.data.data)) {
       return response.data.data; 
     } else {
@@ -83,7 +117,6 @@ export const getFavorites = async () => {
   }
 };
 
-// Remove Recipe from Favorites
 export const removeRecipeFromFavorites = async (recipeId: number) => {
   try {
     const response = await API.delete(`/recipes/favorite/${recipeId}`);
@@ -94,35 +127,59 @@ export const removeRecipeFromFavorites = async (recipeId: number) => {
   }
 };
 
-// Fetch User Profile
-export const getUserProfile = async () => {
+export const getPersonalizedRecommendations = async (query?: string) => {
   try {
-    const response = await API.get("/auth/profile");
-    return response.data.data;
+    const params = query ? { query } : {};
+    const response = await API.get("/recipes/recommendations", { params });
+    return response.data;
   } catch (error: any) {
-    console.error("Error fetching user profile:", error.response?.data || error);
+    console.error("Error getting personalized recommendations:", error.response?.data || error);
     throw error;
   }
 };
 
-// Update User Profile
-export const updateUserProfile = async (firstName: string, lastName: string) => {
+// User Preferences APIs
+export const updateUserPreferences = async (preferences: any) => {
   try {
-    const response = await API.put("/auth/profile", { first_name: firstName, last_name: lastName });
-    return response.data.data;
+    const response = await API.post("/recipes/update-preferences", preferences);
+    return response.data;
   } catch (error: any) {
-    console.error("Error updating user profile:", error.response?.data || error);
+    console.error("Error updating user preferences:", error.response?.data || error);
     throw error;
   }
 };
 
-// AI Chatbot API functions
+export const getUserPreferences = async () => {
+  try {
+    const response = await API.get("/recipes/preferences");
+    return response.data;
+  } catch (error: any) {
+    console.error("Error getting user preferences:", error.response?.data || error);
+    throw error;
+  }
+};
+
+// AI Chatbot APIs
 export const sendChatMessage = async (message: string, context: string = "") => {
   try {
     const response = await API.post("/ai/chat", { message, context });
     return response.data;
   } catch (error: any) {
     console.error("Error sending chat message:", error.response?.data || error);
+    throw error;
+  }
+};
+
+export const generateRecipesViaChat = async (requestData: any, sessionId?: string) => {
+  try {
+    const payload = {
+      ...requestData,
+      session_id: sessionId || generateSessionId()
+    };
+    const response = await API.post("/ai/generate-recipes", payload);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error generating recipes via chat:", error.response?.data || error);
     throw error;
   }
 };
@@ -196,4 +253,31 @@ export const checkAIServiceHealth = async () => {
   }
 };
 
-export default API;
+export const getRecipeSuggestions = async (query: string, sessionId?: string) => {
+  try {
+    const payload = {
+      query,
+      session_id: sessionId || generateSessionId()
+    };
+    const response = await API.post("/ai/recipe-suggestions", payload);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error getting recipe suggestions:", error.response?.data || error);
+    throw error;
+  }
+};
+
+export const startConversation = async (sessionId?: string) => {
+  try {
+    const payload = {
+      session_id: sessionId || generateSessionId()
+    };
+    const response = await API.post("/ai/start-conversation", payload);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error starting conversation:", error.response?.data || error);
+    throw error;
+  }
+};
+
+export default API; 

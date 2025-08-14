@@ -1,0 +1,28 @@
+{
+  "session_id": "test_session_integration",
+  "user_id": "test_user_integration",
+  "messages": [
+    {
+      "timestamp": "2025-09-05T22:22:16.869972",
+      "user_message": "Generated recipes with ingredients: tomatoes, basil, garlic, pasta",
+      "ai_response": "Generated 4 personalized recipes",
+      "context_type": "recipe_generation"
+    },
+    {
+      "timestamp": "2025-09-05T22:22:16.873929",
+      "user_message": "I want to make something with tomatoes and pasta",
+      "ai_response": "I'll help you create some delicious Italian pasta dishes!",
+      "context_type": "recipe_generation"
+    },
+    {
+      "timestamp": "2025-09-05T22:22:48.823209",
+      "user_message": "Generated recipes with ingredients: tomatoes, basil, garlic",
+      "ai_response": "Generated 4 personalized recipes",
+      "context_type": "recipe_generation"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-05 22:22:48.824138"
+}

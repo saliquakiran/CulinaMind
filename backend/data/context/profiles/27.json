@@ -1,0 +1,32 @@
+{
+  "user_id": "27",
+  "skill_level": "beginner",
+  "dietary_restrictions": [
+    "Keto",
+    "Low-Sodium",
+    "halal"
+  ],
+  "cuisine_preferences": [
+    "German",
+    "Vietnamese"
+  ],
+  "cooking_equipment": [
+    "Air Fryer",
+    "Pressure Cooker"
+  ],
+  "ingredient_preferences": [],
+  "ingredient_dislikes": [],
+  "cooking_time_preferences": {
+    "weekday": "",
+    "weekend": "1hr"
+  },
+  "serving_size_preferences": {
+    "weekday": 0,
+    "weekend": 6
+  },
+  "health_goals": [
+    "Muscle Building",
+    "Weight Gain"
+  ],
+  "last_updated": "2025-09-25 23:20:43.614479"
+}

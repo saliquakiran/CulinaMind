@@ -1,0 +1,16 @@
+{
+  "session_id": "59fa20a4-7ed1-4d7e-976c-0a0e37c4ff64",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:19:47.228884",
+      "user_message": "What can I substitute for eggs?",
+      "ai_response": "**Egg Substitutes for Different Purposes:**\n\n1. **Baking Cakes or Muffins:**\n   \u2022 1/4 cup unsweetened applesauce or mashed banana per egg\n   \u2022 1/4 cup silken tofu blended until smooth per egg\n\n2. **Binding in Meatballs or Burgers:**\n   \u2022 1 tablespoon ground flaxseed mixed with 3 tablespoons water per egg\n   \u2022 1/4 cup breadcrumbs mixed with 3 tablespoons water per egg\n\n3. **Fluffiness in Pancakes:**\n   \u2022 1/4 cup yogurt or buttermilk per egg\n   \u2022 1/4 cup carbonated water or soda water per egg",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:19:47.228895"
+}

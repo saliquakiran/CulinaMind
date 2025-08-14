@@ -1,0 +1,16 @@
+{
+  "session_id": "073104c5-b9eb-45ae-81d9-247b0757fabc",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:30:30.021777",
+      "user_message": "thanks",
+      "ai_response": "You're welcome! Is there anything specific you'd like to know or discuss further regarding cooking, recipes, techniques, or anything else related to your culinary interests? Feel free to share your thoughts or ask any questions you might have!",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:30:30.021786"
+}

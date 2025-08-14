@@ -12,10 +12,6 @@ export interface AppState {
     recent: any[];
     loading: boolean;
   };
-  mealPlan: {
-    currentPlan: any | null;
-    loading: boolean;
-  };
   ui: {
     theme: 'light' | 'dark';
     sidebarOpen: boolean;
@@ -33,10 +29,6 @@ export const initialState: AppState = {
   recipes: {
     favorites: [],
     recent: [],
-    loading: false,
-  },
-  mealPlan: {
-    currentPlan: null,
     loading: false,
   },
   ui: {

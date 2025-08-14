@@ -1,0 +1,24 @@
+{
+  "user_id": "31",
+  "skill_level": "intermediate",
+  "dietary_restrictions": [
+    "None"
+  ],
+  "cuisine_preferences": [],
+  "cooking_equipment": [],
+  "ingredient_preferences": [],
+  "ingredient_dislikes": [],
+  "cooking_time_preferences": {
+    "weekday": "",
+    "weekend": ""
+  },
+  "serving_size_preferences": {
+    "weekday": 0,
+    "weekend": 0
+  },
+  "health_goals": [
+    "Muscle Building",
+    "Weight Gain"
+  ],
+  "last_updated": "2025-09-25 18:29:36.894733"
+}

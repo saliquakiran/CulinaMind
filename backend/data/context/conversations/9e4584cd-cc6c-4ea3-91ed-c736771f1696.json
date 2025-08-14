@@ -1,0 +1,16 @@
+{
+  "session_id": "9e4584cd-cc6c-4ea3-91ed-c736771f1696",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:19:32.849216",
+      "user_message": "What can I substitute for eggs?",
+      "ai_response": "To substitute for eggs in recipes, consider the following options based on your preferences:\n**For Binding:**\n\u2022 **Flaxseed or Chia Seeds:** Mix 1 tablespoon of ground flaxseed or chia seeds with 3 tablespoons of water until gel-like.\n\u2022 **Banana:** Use 1/4 cup mashed ripe banana per egg for added sweetness in baking.\n\n**For Leavening:**\n1. **Baking Powder and Oil:** Mix 1.5 tablespoons of oil, 1.5 tablespoons of water, and 1 teaspoon of baking powder per egg.\n2. **Carbonated Water:** Use 1/4 cup of carbonated water for each egg for light, fluffy baked goods.\n\nRemember to consider the flavor profile and texture you want in the final dish when choosing a substitute!",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:19:32.849227"
+}

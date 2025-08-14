@@ -1,0 +1,16 @@
+{
+  "session_id": "7df22d9c-7323-495e-a3ef-c72192398841",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:27:20.508315",
+      "user_message": "just a dipping sauce",
+      "ai_response": "That's great! Dipping sauces can really elevate a dish. What type of dish or cuisine are you planning to pair the dipping sauce with? Do you have any preferences for flavors or ingredients?",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:27:20.508319"
+}

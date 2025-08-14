@@ -37,7 +37,5 @@ Werkzeug>=3.0.0
 # AI dependencies (simplified)
 langchain>=0.1.0
 langchain-openai>=0.0.5
-# Vector embeddings and search
-numpy>=1.24.0
-faiss-cpu>=1.7.4
-pathlib2>=2.3.7
+# Anthropic MCP dependencies
+anthropic>=0.7.0

@@ -1,0 +1,16 @@
+{
+  "session_id": "42b908de-0c39-4137-8762-73e627e34812",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:26:15.962607",
+      "user_message": "I'm making a desi sauce which needs to have some sour underlying taste",
+      "ai_response": "That sounds delicious! When you mention a \"desi sauce,\" are you looking to create a sauce that is typically used in South Asian cuisine? Could you provide more details about the specific flavors you want in the sauce besides the sour taste? Are you looking for a tangy or citrusy sourness, or perhaps a different type of sour flavor like vinegar or tamarind?",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:26:15.962613"
+}

@@ -1,0 +1,30 @@
+{
+  "user_id": "25",
+  "skill_level": "beginner",
+  "dietary_restrictions": [
+    "Dairy-Free"
+  ],
+  "cuisine_preferences": [
+    "Vietnamese",
+    "Greek"
+  ],
+  "cooking_equipment": [
+    "Oven",
+    "Sous Vide",
+    "Air Fryer",
+    "Blender",
+    "Grill"
+  ],
+  "ingredient_preferences": [],
+  "ingredient_dislikes": [],
+  "cooking_time_preferences": {
+    "weekday": "1hr",
+    "weekend": "2hrs"
+  },
+  "serving_size_preferences": {
+    "weekday": 1,
+    "weekend": 2
+  },
+  "health_goals": [],
+  "last_updated": "2025-09-05 23:29:06.854820"
+}

@@ -1,0 +1,16 @@
+{
+  "session_id": "test_session_preferences",
+  "user_id": "test_user_preferences",
+  "messages": [
+    {
+      "timestamp": "2025-09-05T22:43:49.891898",
+      "user_message": "Generated recipes with ingredients: tomatoes, basil, pasta",
+      "ai_response": "Generated 4 personalized recipes",
+      "context_type": "recipe_generation"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-05 22:43:49.891920"
+}

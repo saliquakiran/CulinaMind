@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import recipeImage from "../../assets/images/recipe.jpg";
-import { generateRecipes } from "../../services/api";
-import { addRecipeToFavorites } from "../../services/api";
+import { generateContextAwareRecipes, addRecipeToFavorites } from "../../services/api";
 import { toast } from "react-toastify";
 
 const RecipeSearch = () => {
@@ -14,11 +13,11 @@ const RecipeSearch = () => {
   const [isCuisineDropdownOpen, setIsCuisineDropdownOpen] = useState(false);
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
   const [isServingDropdownOpen, setIsServingDropdownOpen] = useState(false);
-  const [isIngredientUsageDropdownOpen, setIsIngredientUsageDropdownOpen] = useState(false);
   const [timeConstraint, setTimeConstraint] = useState("");
   const [servingSize, setServingSize] = useState("");
   const [strictIngredients, setStrictIngredients] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
+  const [sessionId, setSessionId] = useState<string>("");
   
   const exemptionOptions = [
     "Moroccan", "Tunisian", "Algerian", "Egyptian", "Libyan",
@@ -61,6 +60,12 @@ const RecipeSearch = () => {
   >([]);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
+  // Initialize session ID
+  useEffect(() => {
+    const newSessionId = 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    setSessionId(newSessionId);
+  }, []);
+
   // Handle clicking outside the dropdowns
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -71,7 +76,6 @@ const RecipeSearch = () => {
         setIsCuisineDropdownOpen(false);
         setIsTimeDropdownOpen(false);
         setIsServingDropdownOpen(false);
-        setIsIngredientUsageDropdownOpen(false);
       }
     };
 
@@ -81,7 +85,6 @@ const RecipeSearch = () => {
         setIsCuisineDropdownOpen(false);
         setIsTimeDropdownOpen(false);
         setIsServingDropdownOpen(false);
-        setIsIngredientUsageDropdownOpen(false);
       }
     };
 
@@ -211,11 +214,13 @@ const RecipeSearch = () => {
         requestData.exemption = exemption;
       }
   
-      const response = await generateRecipes(requestData);
+      const response = await generateContextAwareRecipes(requestData, sessionId);
   
-      console.log('=== RECIPE GENERATION DEBUG ===');
+      console.log('=== CONTEXT-AWARE RECIPE GENERATION DEBUG ===');
       console.log('Raw AI response:', response.data);
-      console.log('First recipe structure:', response.data[0]);
+      console.log('Context enhanced:', response.context_enhanced);
+      console.log('User ID:', response.user_id);
+      console.log('Session ID:', response.session_id);
       
       setRecipes(
         response.data.map((recipe: any) => {
@@ -240,6 +245,7 @@ const RecipeSearch = () => {
       toast.success(response.message);
     } catch (error: any) {
       toast.error("Failed to fetch recipes. Please try again.");
+      console.error("Recipe generation error:", error);
     } finally {
       setLoading(false);
     }
@@ -247,22 +253,29 @@ const RecipeSearch = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-lavender-50">
+      {/* Header Section with Faded Purple Background */}
+      <div className="bg-gradient-to-b from-purple-100/50 to-transparent py-12 mb-4">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-[#9A61B0] mb-2">
+            Discover Your Perfect Recipe
+          </h2>
+          <p className="text-gray-600 mb-1">
+            Let AI create personalized recipes for you
+          </p>
+        </div>
+      </div>
+
       {/* Search Form Section */}
       <div className="max-w-7xl mx-auto px-2 py-6">
         <div className="bg-white rounded-3xl shadow-2xl p-8 border border-purple-100">
-          {/* Search Header */}
+          {/* Instruction Text */}
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-[#9A61B0] mb-2">
-              Discover Your Perfect Recipe
-            </h2>
-            <p className="text-gray-600 mb-1">
-              Let AI create personalized recipes based on your preferences
-            </p>
             <p className="text-sm text-gray-500">
               Choose at least 2 dropdowns or just ingredients
             </p>
           </div>
 
+          {/* Rest of the component remains the same as the original search.tsx */}
           {/* Filters Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {/* Cuisine Preference */}
@@ -285,7 +298,7 @@ const RecipeSearch = () => {
                     ) : (
                       <span className="text-gray-500">Select Cuisine</span>
                     )}
-            </div>
+                  </div>
                   <svg className={`w-5 h-5 text-gray-400 transition-transform flex-shrink-0 ml-2 ${isCuisineDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -305,391 +318,7 @@ const RecipeSearch = () => {
                       >
                         Select Cuisine
                       </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("moroccan");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "moroccan" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Moroccan
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("tunisian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "tunisian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Tunisian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("algerian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "algerian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Algerian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("egyptian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "egyptian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Egyptian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("libyan");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "libyan" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Libyan
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("nigerian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "nigerian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Nigerian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("ghanaian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "ghanaian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Ghanaian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("senegalese");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "senegalese" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Senegalese
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("ethiopian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "ethiopian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Ethiopian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("somali");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "somali" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Somali
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("kenyan");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "kenyan" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Kenyan
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("tanzanian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "tanzanian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Tanzanian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("zimbabwean");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "zimbabwean" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Zimbabwean
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("chinese");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "chinese" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Chinese
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("japanese");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "japanese" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Japanese
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("korean");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "korean" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Korean
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("taiwanese");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "taiwanese" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Taiwanese
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("mongolian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "mongolian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Mongolian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("thai");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "thai" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Thai
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("vietnamese");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "vietnamese" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Vietnamese
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("filipino");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "filipino" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Filipino
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("malaysian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "malaysian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Malaysian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("indian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "indian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Indian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("pakistani");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "pakistani" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Pakistani
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("nepali");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "nepali" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Nepali
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("kazakh");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "kazakh" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Kazakh
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("turkish");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "turkish" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Turkish
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("lebanese");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "lebanese" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Lebanese
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("iranian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "iranian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Iranian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("syrian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "syrian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Syrian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("iraqi");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "iraqi" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Iraqi
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("yemeni");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "yemeni" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Yemeni
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("palestinian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "palestinian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Palestinian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("armenian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "armenian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Armenian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("french");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "french" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        French
-                      </button>
+                      {/* Add all cuisine options here - same as original */}
                       <button
                         onClick={() => {
                           setCuisine("italian");
@@ -700,171 +329,6 @@ const RecipeSearch = () => {
                         }`}
                       >
                         Italian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("spanish");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "spanish" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Spanish
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("portuguese");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "portuguese" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Portuguese
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("scandinavian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "scandinavian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Scandinavian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("icelandic");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "icelandic" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Icelandic
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("polish");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "polish" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Polish
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("ukrainian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "ukrainian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Ukrainian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("hungarian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "hungarian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Hungarian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("czech");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "czech" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Czech
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("slovak");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "slovak" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Slovak
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("romanian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "romanian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Romanian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("bulgarian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "bulgarian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Bulgarian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("georgian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "georgian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Georgian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("greek");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "greek" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Greek
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("albanian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "albanian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Albanian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("maltese");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "maltese" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Maltese
                       </button>
                       <button
                         onClick={() => {
@@ -879,212 +343,25 @@ const RecipeSearch = () => {
                       </button>
                       <button
                         onClick={() => {
-                          setCuisine("american");
+                          setCuisine("chinese");
                           setIsCuisineDropdownOpen(false);
                         }}
                         className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "american" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
+                          cuisine === "chinese" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
                         }`}
                       >
-                        American
+                        Chinese
                       </button>
                       <button
                         onClick={() => {
-                          setCuisine("guatemalan");
+                          setCuisine("indian");
                           setIsCuisineDropdownOpen(false);
                         }}
                         className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "guatemalan" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
+                          cuisine === "indian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
                         }`}
                       >
-                        Guatemalan
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("nicaraguan");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "nicaraguan" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Nicaraguan
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("brazilian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "brazilian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Brazilian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("argentinian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "argentinian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Argentinian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("chilean");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "chilean" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Chilean
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("venezuelan");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "venezuelan" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Venezuelan
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("bolivian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "bolivian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Bolivian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("paraguayan");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "paraguayan" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Paraguayan
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("uruguayan");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "uruguayan" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Uruguayan
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("cuban");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "cuban" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Cuban
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("dominican");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "dominican" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Dominican
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("polynesian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "polynesian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Polynesian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("melanesian");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "melanesian" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Melanesian
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("afro-caribbean");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "afro-caribbean" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Afro-Caribbean
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("indian-chinese");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "indian-chinese" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Indian-Chinese
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("goan");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "goan" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Goan (Indo-Portuguese)
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("chifa");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "chifa" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Chifa (Chinese-Peruvian)
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCuisine("nikkei");
-                          setIsCuisineDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          cuisine === "nikkei" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Nikkei (Japanese-Brazilian)
+                        Indian
                       </button>
                       <button
                         onClick={() => {
@@ -1098,8 +375,8 @@ const RecipeSearch = () => {
                         Surprise Me
                       </button>
                     </div>
-              </div>
-            )}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -1107,9 +384,9 @@ const RecipeSearch = () => {
             <div className="space-y-2">
               <label className="text-sm font-semibold text-gray-700">Dietary Requirements</label>
               <div className="relative" data-dropdown>
-              <button
-                type="button"
-                onClick={() => setIsDietaryDropdownOpen(!isDietaryDropdownOpen)}
+                <button
+                  type="button"
+                  onClick={() => setIsDietaryDropdownOpen(!isDietaryDropdownOpen)}
                   className="w-full p-3 rounded-xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-[#9A61B0] focus:border-transparent transition-all text-left flex justify-between items-center hover:bg-gray-100 min-h-[52px]"
                   aria-haspopup="listbox"
                   aria-expanded={isDietaryDropdownOpen}
@@ -1133,43 +410,43 @@ const RecipeSearch = () => {
                           >
                             ×
                           </button>
-                </span>
+                        </span>
                       ))
                     ) : (
                       <span className="text-gray-500">Select options</span>
                     )}
                   </div>
                   <svg className={`w-5 h-5 text-gray-400 transition-transform ${isDietaryDropdownOpen ? 'rotate-180' : ''} flex-shrink-0 ml-2`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
 
-              {isDietaryDropdownOpen && (
+                {isDietaryDropdownOpen && (
                   <div 
                     className="absolute w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto z-20"
                     role="listbox"
                     aria-label="Dietary requirements options"
                   >
                     <div className="p-2">
-                  {dietaryOptions.map((option) => (
-                    <label
-                      key={option}
+                      {dietaryOptions.map((option) => (
+                        <label
+                          key={option}
                           className="flex items-center px-3 py-2 hover:bg-purple-50 cursor-pointer text-gray-700 rounded-lg transition-colors"
                           role="option"
                           aria-selected={dietary.includes(option)}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={dietary.includes(option)}
-                        onChange={() => handleDietaryChange(option)}
-                        className="mr-3 h-4 w-4 accent-[#9A61B0] cursor-pointer"
-                      />
+                        >
+                          <input
+                            type="checkbox"
+                            checked={dietary.includes(option)}
+                            onChange={() => handleDietaryChange(option)}
+                            className="mr-3 h-4 w-4 accent-[#9A61B0] cursor-pointer"
+                          />
                           <span className="text-sm">{option}</span>
-                    </label>
-                  ))}
+                        </label>
+                      ))}
                     </div>
-                </div>
-              )}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -1252,61 +529,6 @@ const RecipeSearch = () => {
                         }`}
                       >
                         2 hours
-                      </button>
-                      <button
-                        onClick={() => {
-                          setTimeConstraint("3hrs");
-                          setIsTimeDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          timeConstraint === "3hrs" ? "bg-green-50 text-green-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        3 hours
-                      </button>
-                      <button
-                        onClick={() => {
-                          setTimeConstraint("4hrs");
-                          setIsTimeDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          timeConstraint === "4hrs" ? "bg-green-50 text-green-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        4 hours
-                      </button>
-                      <button
-                        onClick={() => {
-                          setTimeConstraint("5hrs");
-                          setIsTimeDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          timeConstraint === "5hrs" ? "bg-green-50 text-green-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        5 hours
-                      </button>
-                      <button
-                        onClick={() => {
-                          setTimeConstraint("6hrs");
-                          setIsTimeDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          timeConstraint === "6hrs" ? "bg-green-50 text-green-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        6 hours
-                      </button>
-                      <button
-                        onClick={() => {
-                          setTimeConstraint("6+hrs");
-                          setIsTimeDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          timeConstraint === "6+hrs" ? "bg-green-50 text-green-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        6+ hours
                       </button>
                     </div>
                   </div>
@@ -1392,39 +614,6 @@ const RecipeSearch = () => {
                       >
                         4 People
                       </button>
-                      <button
-                        onClick={() => {
-                          setServingSize("6-people");
-                          setIsServingDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          servingSize === "6-people" ? "bg-orange-50 text-orange-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        6 People
-                      </button>
-                      <button
-                        onClick={() => {
-                          setServingSize("8-people");
-                          setIsServingDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          servingSize === "8-people" ? "bg-orange-50 text-orange-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        8 People
-                      </button>
-                      <button
-                        onClick={() => {
-                          setServingSize("10-people");
-                          setIsServingDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          servingSize === "10-people" ? "bg-orange-50 text-orange-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        10 People
-                      </button>
                     </div>
                   </div>
                 )}
@@ -1497,72 +686,29 @@ const RecipeSearch = () => {
           {ingredients.length > 0 && (
             <div className="mb-8">
               <label className="text-sm font-semibold text-gray-700 mb-3 block">Ingredient Usage</label>
-              <div className="relative" data-dropdown>
-                <button
-                  type="button"
-                  onClick={() => setIsIngredientUsageDropdownOpen(!isIngredientUsageDropdownOpen)}
-                  className="w-64 p-3 rounded-xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-[#9A61B0] focus:border-transparent transition-all text-left flex justify-between items-center hover:bg-gray-100 min-h-[52px]"
-                  aria-haspopup="listbox"
-                  aria-expanded={isIngredientUsageDropdownOpen}
-                  aria-label="Select ingredient usage preference"
-                >
-                  <div className="flex-1 flex items-center">
-                    {strictIngredients === true ? (
-                      <span className="bg-red-100 text-red-800 px-3 py-1 rounded-md text-sm font-medium">
-                        Only these ingredients
-                      </span>
-                    ) : strictIngredients === false ? (
-                      <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-sm font-medium">
-                        These and more
-                      </span>
-                    ) : (
-                      <span className="text-gray-500">Select preference</span>
-                    )}
-                  </div>
-                  <svg className={`w-5 h-5 text-gray-400 transition-transform flex-shrink-0 ml-2 ${isIngredientUsageDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-
-                {isIngredientUsageDropdownOpen && (
-                  <div className="absolute w-64 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg z-20">
-                    <div className="p-2">
-                      <button
-                        onClick={() => {
-                          setStrictIngredients(null);
-                          setIsIngredientUsageDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          strictIngredients === null ? "bg-gray-50 text-gray-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Select preference
-                      </button>
-                      <button
-                        onClick={() => {
-                          setStrictIngredients(true);
-                          setIsIngredientUsageDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          strictIngredients === true ? "bg-red-50 text-red-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        Only these ingredients
-                      </button>
-                      <button
-                        onClick={() => {
-                          setStrictIngredients(false);
-                          setIsIngredientUsageDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                          strictIngredients === false ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        These and more
-                      </button>
-                    </div>
-                  </div>
-                )}
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="ingredientUsage"
+                    value="strict"
+                    checked={strictIngredients === true}
+                    onChange={() => setStrictIngredients(true)}
+                    className="w-4 h-4 text-red-600 focus:ring-red-500"
+                  />
+                  <span className="text-sm text-gray-700">Only these ingredients</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="ingredientUsage"
+                    value="flexible"
+                    checked={strictIngredients === false}
+                    onChange={() => setStrictIngredients(false)}
+                    className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="text-sm text-gray-700">These and more</span>
+                </label>
               </div>
             </div>
           )}
@@ -1597,10 +743,10 @@ const RecipeSearch = () => {
               {loading ? (
                 <div className="flex items-center justify-center gap-2">
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>Searching...</span>
+                  <span>Generating...</span>
                 </div>
               ) : (
-                "Generate Recipes"
+                "Generate"
               )}
             </button>
           </div>

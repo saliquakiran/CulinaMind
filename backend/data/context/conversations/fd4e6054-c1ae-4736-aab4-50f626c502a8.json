@@ -1,0 +1,16 @@
+{
+  "session_id": "fd4e6054-c1ae-4736-aab4-50f626c502a8",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:26:30.111251",
+      "user_message": "I want a mix of tangy and sweet",
+      "ai_response": "That's a great combination! Are you thinking of a particular dish or type of cuisine that you'd like to prepare with a tangy and sweet flavor profile? It could be helpful to know your preferences or dietary restrictions to suggest the best options for you.",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:26:30.111262"
+}

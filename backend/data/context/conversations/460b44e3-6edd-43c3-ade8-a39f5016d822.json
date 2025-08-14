@@ -1,0 +1,16 @@
+{
+  "session_id": "460b44e3-6edd-43c3-ade8-a39f5016d822",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:30:50.545313",
+      "user_message": "How do I make fluffy pancakes?",
+      "ai_response": "To make fluffy pancakes, there are a few key techniques we can use. Since you mentioned you're a beginner, I'll walk you through the process step by step.\n\nFirst, separate the egg whites from the yolks. Beat the egg whites until stiff peaks form. This will help incorporate air into the batter, making the pancakes fluffy.\n\nNext, in a separate bowl, mix together the dry ingredients like flour, baking powder, and a pinch of salt. In another bowl, whisk together the egg yolks, buttermilk, and a bit of melted butter.\n\nThen, gently fold the beaten egg whites into the wet mixture. The key here is to be gentle to keep the air bubbles intact for fluffiness. Let the batter rest for about 10 minutes to allow the ingredients to meld together.\n\nHeat a non-stick pan on medium heat and lightly grease it with butter or cooking spray. Pour the pancake batter onto the pan to form your desired pancake size. Cook until bubbles form on the surface, then flip and cook the other side until golden brown.\n\nWould you like any specific variations like adding fruits or nuts to the batter, or any particular toppings like maple syrup or whipped cream? Let me know if you have any preferences or dietary restrictions I should consider.",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:30:50.545318"
+}

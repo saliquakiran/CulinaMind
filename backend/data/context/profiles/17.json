@@ -1,0 +1,30 @@
+{
+  "user_id": "17",
+  "skill_level": "intermediate",
+  "dietary_restrictions": [
+    "Low-Sodium"
+  ],
+  "cuisine_preferences": [
+    "Greek",
+    "Korean",
+    "Thai"
+  ],
+  "cooking_equipment": [
+    "Sous Vide",
+    "Wok",
+    "Blender",
+    "Air Fryer"
+  ],
+  "ingredient_preferences": [],
+  "ingredient_dislikes": [],
+  "cooking_time_preferences": {
+    "weekday": "",
+    "weekend": ""
+  },
+  "serving_size_preferences": {
+    "weekday": 0,
+    "weekend": 0
+  },
+  "health_goals": [],
+  "last_updated": "2025-09-06 03:33:06.953504"
+}

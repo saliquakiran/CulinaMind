@@ -1,0 +1,40 @@
+{
+  "user_id": "test_user_preferences",
+  "skill_level": "advanced",
+  "dietary_restrictions": [
+    "vegan"
+  ],
+  "cuisine_preferences": [
+    "japanese",
+    "thai"
+  ],
+  "cooking_equipment": [
+    "oven",
+    "stovetop",
+    "grill",
+    "blender"
+  ],
+  "ingredient_preferences": [
+    "tofu",
+    "miso",
+    "ginger"
+  ],
+  "ingredient_dislikes": [
+    "mushrooms",
+    "anchovies",
+    "cilantro"
+  ],
+  "cooking_time_preferences": {
+    "weekday": "30min",
+    "weekend": "1hr"
+  },
+  "serving_size_preferences": {
+    "weekday": 2,
+    "weekend": 4
+  },
+  "health_goals": [
+    "weight_loss",
+    "heart_health"
+  ],
+  "last_updated": "2025-09-05 22:43:49.892739"
+}

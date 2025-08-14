@@ -1,0 +1,16 @@
+{
+  "session_id": "187c4db0-40c1-4a11-8498-f1f430aacf42",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:29:45.058163",
+      "user_message": "What can I substitute for tamarind?",
+      "ai_response": "To find a suitable substitute for tamarind, could you please share what recipe you are working on and how tamarind is being used in it? This information will help me provide you with the best alternative options that align with your preferences and dietary restrictions.",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:29:45.058171"
+}

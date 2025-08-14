@@ -1,0 +1,16 @@
+{
+  "session_id": "818dc28c-291c-44f2-bebc-028d50075959",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:23:04.891360",
+      "user_message": "What can I substitute for eggs?",
+      "ai_response": "Hey there! I'd love to help you find a great substitute for eggs. Are you looking to substitute eggs due to dietary preferences, allergies, or just trying something new? Also, do you prefer a similar flavor profile or are you open to exploring different tastes in your recipe? Let me know, and we can find the perfect egg alternative for you!",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:23:04.891369"
+}

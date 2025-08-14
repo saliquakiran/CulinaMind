@@ -1,0 +1,18 @@
+{
+  "session_id": "session_user1_001",
+  "user_id": "user_123",
+  "current_ingredients": [
+    "tomatoes",
+    "basil",
+    "pasta",
+    "cheese"
+  ],
+  "current_cuisine": "italian",
+  "current_dietary_restrictions": [
+    "vegetarian"
+  ],
+  "current_time_constraint": "30 minutes",
+  "current_serving_size": 2,
+  "cooking_mode": "flexible",
+  "session_start_time": "2025-09-05 22:33:23.145845"
+}

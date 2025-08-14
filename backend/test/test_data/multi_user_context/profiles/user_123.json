@@ -1,0 +1,29 @@
+{
+  "user_id": "user_123",
+  "skill_level": "beginner",
+  "dietary_restrictions": [
+    "vegetarian"
+  ],
+  "cuisine_preferences": [
+    "italian"
+  ],
+  "cooking_equipment": [
+    "oven",
+    "stovetop"
+  ],
+  "ingredient_preferences": [
+    "tomatoes",
+    "basil",
+    "cheese"
+  ],
+  "ingredient_dislikes": [
+    "meat",
+    "fish"
+  ],
+  "cooking_time_preferences": {},
+  "serving_size_preferences": {},
+  "health_goals": [
+    "weight_loss"
+  ],
+  "last_updated": "2025-09-05 22:33:23.145192"
+}

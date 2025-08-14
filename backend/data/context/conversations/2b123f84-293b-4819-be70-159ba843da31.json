@@ -1,0 +1,16 @@
+{
+  "session_id": "2b123f84-293b-4819-be70-159ba843da31",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:31:17.205941",
+      "user_message": "How to cook rice perfectly?",
+      "ai_response": "To cook rice perfectly, especially considering your preferences and equipment, have you tried using your pressure cooker for this task? It can make the process easier and quicker. Do you prefer a specific type of rice such as Basmati, Jasmine, or another variety for your dishes? Let's tailor the method to suit your taste and equipment.",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:31:17.205946"
+}

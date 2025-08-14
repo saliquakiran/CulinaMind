@@ -80,13 +80,15 @@ const Favorites = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-lavender-50">
       {/* Header Section */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-[#9A61B0] mb-4">
-          Your Favorite Recipes
-        </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          All your saved recipes in one place. Click on any recipe to see the full details.
-        </p>
+      <div className="bg-gradient-to-b from-purple-100/50 to-transparent py-12 mb-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-[#9A61B0] mb-2">
+            Your Favorite Recipes
+          </h1>
+          <p className="text-gray-600 mb-1">
+            All your saved recipes in one place. Click on any recipe to see the full details.
+          </p>
+        </div>
       </div>
 
       {/* Favorites Content */}
@@ -267,11 +269,6 @@ const Favorites = () => {
             <p className="text-gray-600 text-lg mb-8">
               Start building your collection of favorite recipes by searching and saving the ones you love.
             </p>
-            <div className="bg-purple-50 rounded-xl p-6 border border-purple-200">
-              <p className="text-purple-700">
-                💡 Tip: Use the Recipe Search tab to discover new recipes and add them to your favorites!
-              </p>
-            </div>
           </div>
         </div>
       )}

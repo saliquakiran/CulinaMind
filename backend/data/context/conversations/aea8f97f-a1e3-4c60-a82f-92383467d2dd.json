@@ -1,0 +1,16 @@
+{
+  "session_id": "aea8f97f-a1e3-4c60-a82f-92383467d2dd",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:14:24.899359",
+      "user_message": "How do I make fluffy pancakes?",
+      "ai_response": "To make fluffy pancakes, especially considering your beginner skill level and dietary preferences (Low-Sodium, halal), here's a customized recipe for you:\n\nFluffy Buttermilk Pancakes Recipe:\n\nIngredients:\n- 1 cup all-purpose flour\n- 1 tablespoon sugar\n- 1 teaspoon baking powder\n- 1/2 teaspoon baking soda\n- 1/4 teaspoon salt (optional, omit for low-sodium)\n- 1 cup buttermilk\n- 1 large egg, separated\n- 2 tablespoons melted butter (substitute with vegetable oil for halal)\n- Cooking spray or extra butter for greasing the pan\n\nInstructions:\n1. In a mixing bowl, whisk together the flour, sugar, baking powder, baking soda, and salt (if using).\n2. In a separate bowl, mix the buttermilk, egg yolk, and melted butter (or oil for halal).\n3. In another clean bowl, beat the egg white until stiff peaks form.\n4. Gently fold the egg white into the buttermilk mixture to keep the batter light and fluffy.\n5. Let the batter rest for about 10 minutes to allow the ingredients to meld together.\n6. Preheat your frying pan or griddle over medium heat and lightly grease it with cooking spray or butter.\n7. Pour a ladleful of batter onto the pan for each pancake.\n8. Cook until bubbles form on the surface of the pancake, then flip and cook until golden brown on both sides.\n9. Repeat with the remaining batter.\n\nEnjoy your fluffy buttermilk pancakes! These pancakes are great for breakfast or brunch, and you can top them with your favorite fruits, maple syrup, or honey.",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:14:24.899372"
+}

@@ -1,0 +1,31 @@
+{
+  "user_id": "user_456",
+  "skill_level": "advanced",
+  "dietary_restrictions": [
+    "gluten-free"
+  ],
+  "cuisine_preferences": [
+    "mexican",
+    "american"
+  ],
+  "cooking_equipment": [
+    "oven",
+    "stovetop",
+    "grill",
+    "sous_vide"
+  ],
+  "ingredient_preferences": [
+    "beef",
+    "chicken",
+    "spices"
+  ],
+  "ingredient_dislikes": [
+    "vegetables"
+  ],
+  "cooking_time_preferences": {},
+  "serving_size_preferences": {},
+  "health_goals": [
+    "muscle_gain"
+  ],
+  "last_updated": "2025-09-05 22:33:23.145650"
+}

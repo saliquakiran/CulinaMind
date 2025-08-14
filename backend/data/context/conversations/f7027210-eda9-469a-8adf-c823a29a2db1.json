@@ -1,0 +1,16 @@
+{
+  "session_id": "f7027210-eda9-469a-8adf-c823a29a2db1",
+  "user_id": "27",
+  "messages": [
+    {
+      "timestamp": "2025-09-25T22:23:38.246104",
+      "user_message": "I want egg alternatives for bread",
+      "ai_response": "Hey there! I'd be happy to help you find some egg alternatives for your bread recipe. Are you looking to substitute eggs due to dietary preferences, allergies, or any other reason? Also, do you prefer something similar in flavor to eggs, or are you open to trying a different taste profile in your bread? Let me know so I can suggest the best alternatives for you!",
+      "context_type": "general"
+    }
+  ],
+  "current_topic": null,
+  "cooking_session_type": null,
+  "active_recipe": null,
+  "last_activity": "2025-09-25 22:23:38.246115"
+}

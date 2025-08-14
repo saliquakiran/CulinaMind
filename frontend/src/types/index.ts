@@ -66,24 +66,6 @@ export interface ChatMessage {
   timestamp: Date;
 }
 
-// Meal planning types
-export interface MealPlan {
-  id: string;
-  user_id: number;
-  week_start_date: string;
-  week_end_date: string;
-  items: MealPlanItem[];
-}
-
-export interface MealPlanItem {
-  id: string;
-  meal_plan_id: string;
-  day_of_week: number;
-  meal_type: 'breakfast' | 'lunch' | 'dinner' | 'snack';
-  recipe_id?: string;
-  custom_meal_name?: string;
-  custom_meal_notes?: string;
-}
 
 // Shopping list types
 export interface ShoppingList {

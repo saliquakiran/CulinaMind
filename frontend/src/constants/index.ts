@@ -138,7 +138,6 @@ export const ROUTES = {
   PROFILE: '/profile',
   FAVORITES: '/favorites',
   RECIPE: '/recipe',
-  MEAL_PLAN: '/meal-plan',
   AI_ASSISTANT: '/ai-assistant',
 } as const;
 
