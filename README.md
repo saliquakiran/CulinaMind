@@ -45,7 +45,7 @@ CulinaMind is an AI-powered culinary assistant that helps you discover recipes a
 
 ### Backend
 - **Framework**: Flask with SQLAlchemy ORM
-- **Database**: SQLite (development) / PostgreSQL (production)
+- **Database**: PostgreSQL
 - **AI/ML**: OpenAI GPT-4, DALL·E 3, FAISS vector search
 - **Authentication**: Flask-JWT-Extended, bcrypt
 - **APIs**: Spoonacular, Edamam integration
@@ -69,7 +69,7 @@ CulinaMind is an AI-powered culinary assistant that helps you discover recipes a
 ### Prerequisites
 - Python 3.8+
 - Node.js 18+
-- PostgreSQL (optional, SQLite used by default)
+- PostgreSQL
 - OpenAI API key
 - Google OAuth credentials (optional)
 
@@ -91,7 +91,12 @@ OPENAI_API_KEY=your_openai_api_key
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 JWT_SECRET_KEY=your_jwt_secret_key
-DATABASE_URL=sqlite:///culina_mind.db
+# PostgreSQL Database Configuration
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=culina_mind
+DB_USER=postgres
+DB_PASSWORD=your_postgres_password
 SPOONACULAR_API_KEY=your_spoonacular_key
 EDAMAM_APP_ID=your_edamam_app_id
 EDAMAM_APP_KEY=your_edamam_app_key

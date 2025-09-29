@@ -3,12 +3,6 @@
   "user_id": "test",
   "messages": [
     {
-      "timestamp": "2025-09-25T22:15:11.468621",
-      "user_message": "Hello",
-      "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? Whether you're seeking recipes, culinary advice, food science insights, or cultural cooking tips, feel free to ask away!",
-      "context_type": "general"
-    },
-    {
       "timestamp": "2025-09-25T22:15:14.491110",
       "user_message": "Hello",
       "ai_response": "Hello! Welcome back to CulinaMind! How can I assist you today with any cooking questions or topics you'd like to explore? Whether you're looking for recipes, culinary advice, food science insights, or cultural cooking tips, feel free to ask away!",
@@ -301,10 +295,16 @@
       "user_message": "Hello",
       "ai_response": "Hello! Welcome back! How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for since you're a beginner in cooking? Let me know how I can help you today!",
       "context_type": "general"
+    },
+    {
+      "timestamp": "2025-09-26T22:56:36.202428",
+      "user_message": "Hello",
+      "ai_response": "Hello! Welcome back! How can I assist you today with your culinary interests or cooking questions? Is there a specific dish you're curious about, a cuisine you want to explore, or maybe some cooking tips you're looking for since you're a beginner in cooking? Let me know how I can help you today!",
+      "context_type": "general"
     }
   ],
   "current_topic": null,
   "cooking_session_type": null,
   "active_recipe": null,
-  "last_activity": "2025-09-25 22:33:41.563464"
+  "last_activity": "2025-09-26 22:56:36.202453"
 }

@@ -11,7 +11,7 @@ backend/
 ├── requirements.txt                    # Python dependencies
 ├── mcp_config.json                     # MCP configuration
 ├── data/                               # Database and context storage
-│   ├── culina_mind.db                  # Main SQLite database
+│   ├── culina_mind (PostgreSQL)        # Main PostgreSQL database
 │   ├── dynamic_knowledge.db            # Knowledge base database
 │   └── context/                        # Context engineering data
 │       ├── conversations/              # Chat history
@@ -52,28 +52,55 @@ source venv/bin/activate  # macOS/Linux
 pip install -r requirements.txt
 ```
 
-### 2. Environment Variables
-Create `.env` file:
+### 2. Database Setup (PostgreSQL)
+**Install PostgreSQL:**
 ```bash
-FLASK_APP=app.py
-FLASK_ENV=development
-OPENAI_API_KEY=your_openai_api_key
-ANTHROPIC_API_KEY=your_anthropic_api_key
-JWT_SECRET_KEY=your_jwt_secret_key
-SECRET_KEY=your_secret_key
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-SPOONACULAR_API_KEY=your_spoonacular_key
-EDAMAM_APP_ID=your_edamam_app_id
-EDAMAM_APP_KEY=your_edamam_app_key
+# macOS
+brew install postgresql
+brew services start postgresql
+
+# Ubuntu/Debian
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
 ```
 
-### 3. Database
+**Create Database:**
+```bash
+psql postgres
+CREATE DATABASE culina_mind;
+\q
+```
+
+**Environment Variables:**
+Create `.env` file in backend directory:
+```env
+# Flask Configuration
+SECRET_KEY=your-secret-key-here
+JWT_SECRET_KEY=your-jwt-secret-key-here
+
+# PostgreSQL Database Configuration
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=culina_mind
+DB_USER=postgres
+DB_PASSWORD=your-postgres-password
+
+# API Keys
+OPENAI_API_KEY=your-openai-api-key
+ANTHROPIC_API_KEY=your-anthropic-api-key
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+```
+
+**Run Migrations:**
 ```bash
 flask db upgrade
+python test/test_postgres_connection.py  # Test connection
 ```
 
-### 4. Run Server
+### 3. Run Server
 ```bash
 flask run
 ```
@@ -188,7 +215,7 @@ python test/test_anthropic_mcp.py
 ## 🚀 Deployment
 
 ### Production Setup
-- Use PostgreSQL instead of SQLite
+- Uses PostgreSQL as the primary database
 - Set `FLASK_ENV=production`
 - Configure production environment variables
 - Implement proper logging and monitoring
@@ -202,8 +229,8 @@ docker run -p 5001:5001 culinamind-backend
 ## 🆘 Troubleshooting
 
 ### Common Issues
-1. **Database**: Ensure `data/` directory exists and has proper permissions
-2. **API Keys**: Verify all required environment variables are set
+1. **Database**: Ensure PostgreSQL is running and database exists
+2. **API Keys**: Verify all required environment variables are set in `.env`
 3. **Dependencies**: Activate virtual environment and install requirements
 4. **Context**: Check `data/context/` directory structure
 
@@ -216,8 +243,9 @@ flask run
 
 ### Testing Components
 ```bash
-python scripts/test_rag.py
+python test/test_postgres_connection.py
 python test/test_anthropic_mcp.py
+python test/test_rag.py
 python examples/context_engineering_demo.py
 ```
 
