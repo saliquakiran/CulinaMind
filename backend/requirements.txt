@@ -40,3 +40,6 @@ langchain>=0.1.0
 langchain-openai>=0.0.5
 # Anthropic MCP dependencies
 anthropic>=0.7.0
+# RAG and vector search dependencies
+numpy>=1.24.0
+faiss-cpu>=1.7.4
