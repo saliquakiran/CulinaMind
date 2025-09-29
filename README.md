@@ -200,10 +200,6 @@ CulinaMind/
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 License
-
-This project does not currently have a license file. Please contact the project maintainers for licensing information.
-
 ## 🚧 Roadmap
 
 - [ ] Meal planning and weekly menu generation
