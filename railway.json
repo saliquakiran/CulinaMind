@@ -3,7 +3,7 @@
       "builder": "NIXPACKS"
     },
     "deploy": {
-      "startCommand": "cd backend && gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 300 --access-logfile - --error-logfile - wsgi:app",
+      "startCommand": "cd backend && python app.py",
       "healthcheckPath": "/",
       "healthcheckTimeout": 300,
       "restartPolicyType": "ON_FAILURE",
