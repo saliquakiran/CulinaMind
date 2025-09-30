@@ -2,6 +2,16 @@
 
 CulinaMind is an AI-powered culinary assistant that helps you discover recipes and get cooking guidance. It provides recipe recommendations, ingredient-based recipe generation, and personalized cooking assistance based on your preferences.
 
+## 🌐 Live Deployment
+
+- **Frontend**: [https://culina-mind.vercel.app](https://culina-mind.vercel.app)
+- **Backend API**: [https://culinamindbackend-production.up.railway.app](https://culinamindbackend-production.up.railway.app)
+
+**Deployment Stack:**
+- Frontend: Vercel
+- Backend: Railway
+- Database: Railway PostgreSQL
+
 ## 🍳 Core Features
 
 ### Recipe Generation & Discovery
@@ -45,32 +55,33 @@ CulinaMind is an AI-powered culinary assistant that helps you discover recipes a
 
 ### Backend
 - **Framework**: Flask with SQLAlchemy ORM
-- **Database**: PostgreSQL
-- **AI/ML**: OpenAI GPT-4, DALL·E 3, FAISS vector search
+- **Database**: PostgreSQL (Railway)
+- **Server**: Gunicorn WSGI server
+- **AI/ML**: OpenAI GPT-4, DALL·E 3, FAISS vector search, Anthropic Claude
 - **Authentication**: Flask-JWT-Extended, bcrypt
-- **APIs**: Spoonacular, Edamam integration
+- **APIs**: Spoonacular, Edamam
 
 ### Frontend
 - **Framework**: React 19 with TypeScript
-- **Styling**: Tailwind CSS with custom design system
-- **Build Tool**: Vite for fast development and building
+- **Styling**: Tailwind CSS
+- **Build Tool**: Vite
 - **State Management**: React hooks and context
 - **Routing**: React Router v6
 
-### AI & Context Engineering
-- **RAG System**: Retrieval-Augmented Generation
-- **Vector Embeddings**: Culinary knowledge vectorization
-- **Context Management**: Context engineering for AI responses
-- **MCP Integration**: Anthropic Model Context Protocol
-- **Semantic Search**: FAISS-powered knowledge retrieval
+### AI & RAG System
+- **Vector Search**: FAISS-powered semantic search
+- **Embeddings**: OpenAI text-embedding-ada-002
+- **MCP**: Anthropic Model Context Protocol for validation
+- **Context Engineering**: Multi-layer context management (user profiles, conversation history, sessions)
 
-## 🚀 Quick Start
+## 🚀 Local Development
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.13+
 - Node.js 18+
-- PostgreSQL
+- PostgreSQL 14+
 - OpenAI API key
+- Anthropic API key
 - Google OAuth credentials (optional)
 
 ### Backend Setup
@@ -78,44 +89,50 @@ CulinaMind is an AI-powered culinary assistant that helps you discover recipes a
 cd backend
 python3 -m venv venv
 source venv/bin/activate  # macOS/Linux
-# or
-venv\Scripts\activate     # Windows
 
 pip install -r requirements.txt
 ```
 
-Create `.env` file:
-```bash
-FLASK_APP=app.py
-OPENAI_API_KEY=your_openai_api_key
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-JWT_SECRET_KEY=your_jwt_secret_key
-# PostgreSQL Database Configuration
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=culina_mind
-DB_USER=postgres
-DB_PASSWORD=your_postgres_password
-SPOONACULAR_API_KEY=your_spoonacular_key
-EDAMAM_APP_ID=your_edamam_app_id
-EDAMAM_APP_KEY=your_edamam_app_key
+Create `.env` file in `backend/`:
+```env
+SECRET_KEY=your-secret-key
+JWT_SECRET_KEY=your-jwt-secret-key
+OPENAI_API_KEY=your-openai-api-key
+ANTHROPIC_API_KEY=your-anthropic-api-key
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+# PostgreSQL Database
+DATABASE_URL=postgresql://user:password@localhost:5432/culina_mind
+# OR for Railway
+DATABASE_PUBLIC_URL=postgresql://...
 ```
 
-Initialize database and start server:
+Run migrations and start server:
 ```bash
 flask db upgrade
-python app.py
+python app.py  # Development
+# OR for production
+gunicorn --bind 0.0.0.0:8080 app:app
 ```
 
 ### Frontend Setup
 ```bash
 cd frontend
 npm install
-npm run dev
 ```
 
-Visit `http://localhost:5173`
+Create `.env` file in `frontend/`:
+```env
+VITE_API_BASE_URL=http://localhost:5001  # Local backend
+# OR
+VITE_API_BASE_URL=https://culinamindbackend-production.up.railway.app  # Production
+```
+
+Start development server:
+```bash
+npm run dev  # Visit http://localhost:5173
+```
 
 ## 🎯 API Endpoints
 
@@ -157,40 +174,42 @@ Visit `http://localhost:5173`
 CulinaMind/
 ├── backend/                    # Flask API server
 │   ├── app.py                 # Application entry point
-│   ├── config.py              # Configuration settings
-│   ├── models/                # Database models
-│   ├── routes/                # API endpoints
-│   ├── utils/                 # Utility services
-│   └── data/                  # Database and context storage
+│   ├── config.py              # Configuration (supports Railway & local)
+│   ├── Procfile               # Railway deployment config
+│   ├── railway.json           # Railway service config
+│   ├── models/                # SQLAlchemy database models
+│   ├── routes/                # API blueprints (auth, recipes, ai, mcp)
+│   ├── utils/                 # RAG service, context manager, APIs
+│   ├── migrations/            # Alembic database migrations
+│   └── data/                  # Context storage & embeddings
 ├── frontend/                  # React TypeScript app
 │   ├── src/
-│   │   ├── components/        # Reusable UI components
-│   │   ├── pages/            # Route-based pages
-│   │   ├── services/         # API services
+│   │   ├── components/        # UI components
+│   │   ├── pages/            # Route pages
+│   │   ├── services/         # API client (axios)
 │   │   └── types/            # TypeScript definitions
+│   ├── vercel.json           # Vercel deployment config
 │   └── public/               # Static assets
-└── backup/                   # Backup and archive files
 ```
 
-## 🎨 Key Features in Detail
+## 🎨 Key Features
 
-### Context Engineering
-- **Context Layers**: User profiles, conversation history, session context
-- **Knowledge Updates**: Knowledge base updates
-- **Personalization**: AI responses based on user preferences
-- **Context Management**: Context management and retrieval
+### Context-Aware AI
+- **Multi-Layer Context**: User profiles, conversation history, session state
+- **RAG System**: FAISS vector search with 100+ culinary knowledge items
+- **Personalization**: Responses adapted to skill level, preferences, and dietary restrictions
 
-### Recipe Generation
-- **Ingredient-Based**: Generate recipes from available ingredients
-- **Preference-Aware**: Recipes match user dietary and taste preferences
-- **Time Estimates**: Cooking time estimates based on user skill level
-- **Nutritional Focus**: Health-conscious recipe recommendations
+### Smart Recipe Generation
+- **Ingredient-Based**: Create recipes from what you have
+- **Preference-Aware**: Matches dietary restrictions, cuisine preferences, time constraints
+- **Nutritional Analysis**: AI-generated nutritional information
+- **DALL·E Images**: Generated food images for visual appeal
 
-### User Experience
-- **User Onboarding**: Guided preference collection for new users
-- **Responsive Design**: Mobile-first interface
-- **Input Validation**: Feedback on user inputs
-- **Navigation**: Clean user interface
+### Production-Ready
+- **Deployment**: Railway (backend) + Vercel (frontend)
+- **Database**: PostgreSQL with Alembic migrations
+- **Authentication**: JWT-based auth with Google OAuth
+- **Error Handling**: Comprehensive error handling and logging
 
 ## 🤝 Contributing
 
