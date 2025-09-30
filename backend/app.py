@@ -54,7 +54,18 @@ def debug_routes():
 @app.route("/")
 def health_check():
     """Health check endpoint for Railway deployment"""
-    return {"status": "healthy", "message": "CulinaMind API is running"}, 200
+    return {
+        "status": "healthy", 
+        "message": "CulinaMind API is running",
+        "version": "1.0.0",
+        "timestamp": "2024-01-01T00:00:00Z"
+    }, 200
+
+# Additional health check endpoint
+@app.route("/health")
+def health():
+    """Alternative health check endpoint"""
+    return {"status": "ok"}, 200
 
 # Run the app
 if __name__ == '__main__':
