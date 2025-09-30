@@ -19,8 +19,13 @@ app.config.from_object(Config)
 # Set JWT secret key
 app.config['JWT_SECRET_KEY'] = Config.JWT_SECRET_KEY
 
-# Initialize extensions
-CORS(app)
+# Initialize extensions with CORS configuration
+CORS(app, origins=[
+    "http://localhost:3000",
+    "http://localhost:5173", 
+    "https://culinamind.vercel.app",
+    "https://*.vercel.app"
+], supports_credentials=True)
 db.init_app(app)
 bcrypt.init_app(app)
 jwt = JWTManager(app)
@@ -37,6 +42,12 @@ print("🔥 Registering Anthropic MCP validation blueprint...")  # Debug log
 app.register_blueprint(anthropic_mcp_validation_bp, url_prefix="/anthropic-mcp")
 print("🔥 All blueprints registered!")  # Debug log
 
+# Health check endpoint
+@app.route("/")
+def health_check():
+    """Simple health check endpoint"""
+    return {"status": "success", "message": "CulinaMind API is running", "version": "1.0.0"}
+
 # Debug: List all registered routes
 @app.route("/debug/routes")
 def debug_routes():
@@ -52,9 +63,6 @@ def debug_routes():
 
 # Run the app
 if __name__ == '__main__':
-    import os
-    port = int(os.environ.get('PORT', 5001))
     print("🚀 Starting CulinaMind Flask app...")
     print("🔥 Using Anthropic MCP for web search validation!")
-    print(f"🔥 Running on port {port}")
-    app.run(host='0.0.0.0', debug=False, port=port)
+    app.run(debug=True, port=5001)
