@@ -19,12 +19,12 @@ app.config.from_object(Config)
 # Set JWT secret key
 app.config['JWT_SECRET_KEY'] = Config.JWT_SECRET_KEY
 
-# Initialize extensions with CORS configuration
+# Initialize extensions with proper CORS configuration
 CORS(app, origins=[
-    "http://localhost:3000",
-    "http://localhost:5173", 
-    "https://culinamind.vercel.app",
-    "https://*.vercel.app"
+    "http://localhost:3000",  # Local development
+    "http://localhost:5173",  # Vite dev server
+    "https://culinamind.vercel.app",  # Vercel production
+    "https://*.vercel.app"  # Any Vercel preview deployments
 ], supports_credentials=True)
 db.init_app(app)
 bcrypt.init_app(app)
@@ -41,12 +41,6 @@ app.register_blueprint(ai_chatbot_bp, url_prefix="/ai")
 print("🔥 Registering Anthropic MCP validation blueprint...")  # Debug log
 app.register_blueprint(anthropic_mcp_validation_bp, url_prefix="/anthropic-mcp")
 print("🔥 All blueprints registered!")  # Debug log
-
-# Health check endpoint
-@app.route("/")
-def health_check():
-    """Simple health check endpoint"""
-    return {"status": "success", "message": "CulinaMind API is running", "version": "1.0.0"}
 
 # Debug: List all registered routes
 @app.route("/debug/routes")
