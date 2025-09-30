@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
-import Search from "./search";
-import Favorites from "./favorites";
+import Search from "./search.tsx";
+import Favorites from "./favorites.tsx";
 
 const Dashboard: FC = () => {
   const [activeTab, setActiveTab] = useState("search");
