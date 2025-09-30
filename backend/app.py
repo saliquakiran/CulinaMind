@@ -50,16 +50,8 @@ def debug_routes():
         })
     return {"routes": routes}
 
-# Root endpoint for health checks
-@app.route("/")
-def health_check():
-    """Health check endpoint for Railway deployment"""
-    return {"status": "healthy", "message": "CulinaMind API is running"}, 200
-
 # Run the app
 if __name__ == '__main__':
-    import os
-    port = int(os.environ.get('PORT', 5001))
-    print(f"🚀 Starting CulinaMind Flask app on port {port}...")
+    print("🚀 Starting CulinaMind Flask app...")
     print("🔥 Using Anthropic MCP for web search validation!")
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(debug=True, port=5001)
