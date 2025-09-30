@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -59,4 +60,5 @@ def debug_routes():
 if __name__ == '__main__':
     print("🚀 Starting CulinaMind Flask app...")
     print("🔥 Using Anthropic MCP for web search validation!")
-    app.run(debug=True, port=5001)
+    port = int(os.environ.get("PORT", 5001))
+    app.run(debug=False, host="0.0.0.0", port=port)
