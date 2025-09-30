@@ -43,3 +43,5 @@ anthropic>=0.7.0
 # RAG and vector search dependencies
 numpy>=1.24.0
 faiss-cpu>=1.7.4
+# Production WSGI server
+gunicorn>=21.2.0
