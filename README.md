@@ -4,7 +4,7 @@ CulinaMind is an AI-powered culinary assistant that helps you discover recipes a
 
 ## 🌐 Live Deployment
 
-- **Frontend**: [https://culina-mind.vercel.app](https://culina-mind.vercel.app)
+- **Frontend**: [https://culinamind.vercel.app](https://culinamind.vercel.app)
 - **Backend API**: [https://culinamindbackend-production.up.railway.app](https://culinamindbackend-production.up.railway.app)
 
 **Deployment Stack:**
