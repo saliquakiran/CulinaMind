@@ -56,7 +56,7 @@ def health_check():
     """Health check endpoint for Railway deployment"""
     return {"status": "healthy", "message": "CulinaMind API is running"}, 200
 
-# Run the app
+# Run the app (only for local development)
 if __name__ == '__main__':
     import os
     port = int(os.environ.get("PORT", 5001))

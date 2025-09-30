@@ -35,6 +35,7 @@ tqdm>=4.64.0
 typing_extensions>=4.5.0
 urllib3>=1.26.0
 Werkzeug>=3.0.0
+gunicorn>=21.0.0
 # AI dependencies (simplified)
 langchain>=0.1.0
 langchain-openai>=0.0.5
