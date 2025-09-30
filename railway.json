@@ -3,8 +3,8 @@
       "builder": "NIXPACKS"
     },
     "deploy": {
-      "startCommand": "cd backend && python app.py",
-      "healthcheckPath": "/debug/routes",
+      "startCommand": "cd backend && gunicorn --bind 0.0.0.0:$PORT app:app",
+      "healthcheckPath": "/",
       "healthcheckTimeout": 100,
       "restartPolicyType": "ON_FAILURE",
       "restartPolicyMaxRetries": 10

@@ -1,4 +1,3 @@
-import os
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -20,13 +19,8 @@ app.config.from_object(Config)
 # Set JWT secret key
 app.config['JWT_SECRET_KEY'] = Config.JWT_SECRET_KEY
 
-# Initialize extensions with proper CORS configuration
-CORS(app, origins=[
-    "http://localhost:3000",  # Local development
-    "http://localhost:5173",  # Vite dev server
-    "https://culinamind.vercel.app",  # Vercel production
-    "https://*.vercel.app"  # Any Vercel preview deployments
-], supports_credentials=True)
+# Initialize extensions
+CORS(app)
 db.init_app(app)
 bcrypt.init_app(app)
 jwt = JWTManager(app)
@@ -56,9 +50,16 @@ def debug_routes():
         })
     return {"routes": routes}
 
+# Root endpoint for health checks
+@app.route("/")
+def health_check():
+    """Health check endpoint for Railway deployment"""
+    return {"status": "healthy", "message": "CulinaMind API is running"}, 200
+
 # Run the app
 if __name__ == '__main__':
-    print("🚀 Starting CulinaMind Flask app...")
+    import os
+    port = int(os.environ.get('PORT', 5001))
+    print(f"🚀 Starting CulinaMind Flask app on port {port}...")
     print("🔥 Using Anthropic MCP for web search validation!")
-    port = int(os.environ.get("PORT", 5001))
-    app.run(debug=False, host="0.0.0.0", port=port)
+    app.run(host='0.0.0.0', port=port, debug=False)
