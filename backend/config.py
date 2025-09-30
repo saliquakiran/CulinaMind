@@ -12,8 +12,8 @@ class Config:
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 
     # PostgreSQL database configuration
-    # Railway provides DATABASE_URL, fallback to individual variables for local development
-    DATABASE_URL = os.getenv("DATABASE_URL")
+    # Railway provides DATABASE_URL or DATABASE_PUBLIC_URL, fallback to individual variables for local development
+    DATABASE_URL = os.getenv("DATABASE_URL") or os.getenv("DATABASE_PUBLIC_URL")
     
     if DATABASE_URL:
         # Use Railway's DATABASE_URL format
