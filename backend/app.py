@@ -52,6 +52,9 @@ def debug_routes():
 
 # Run the app
 if __name__ == '__main__':
+    import os
+    port = int(os.environ.get('PORT', 5001))
     print("🚀 Starting CulinaMind Flask app...")
     print("🔥 Using Anthropic MCP for web search validation!")
-    app.run(debug=True, port=5001)
+    print(f"🔥 Running on port {port}")
+    app.run(host='0.0.0.0', debug=False, port=port)
